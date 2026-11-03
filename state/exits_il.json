@@ -1,0 +1,582 @@
+{
+ "split": "2025-06-16",
+ "hold": 20,
+ "cost": 0.004,
+ "weights": {
+  "mom12_1": 0.04414,
+  "vol20": -0.06842,
+  "hi252": 0.06799
+ },
+ "schemes": [
+  {
+   "target": 0.01,
+   "stop": null,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.92582,
+    "avg": -0.00121,
+    "median": 0.006,
+    "worst": -0.29725,
+    "p5": -0.06274,
+    "avg_win": 0.00689,
+    "avg_loss": -0.10237,
+    "target_hit": 0.92512
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.93631,
+    "avg": 0.00076,
+    "median": 0.006,
+    "worst": -0.18524,
+    "p5": -0.03714,
+    "avg_win": 0.00703,
+    "avg_loss": -0.09144,
+    "target_hit": 0.93631
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.92982,
+    "avg": -0.00215,
+    "median": 0.006,
+    "worst": -0.48552,
+    "p5": -0.0761,
+    "avg_win": 0.00688,
+    "avg_loss": -0.12176,
+    "target_hit": 0.92982
+   },
+   "edge": 0.00094
+  },
+  {
+   "target": 0.01,
+   "stop": 0.1,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.90063,
+    "avg": -0.00362,
+    "median": 0.006,
+    "worst": -0.13136,
+    "p5": -0.104,
+    "avg_win": 0.00687,
+    "avg_loss": -0.09863,
+    "target_hit": 0.89993
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.90446,
+    "avg": -0.00355,
+    "median": 0.006,
+    "worst": -0.104,
+    "p5": -0.104,
+    "avg_win": 0.00706,
+    "avg_loss": -0.104,
+    "target_hit": 0.90446
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.89825,
+    "avg": -0.00398,
+    "median": 0.006,
+    "worst": -0.12154,
+    "p5": -0.104,
+    "avg_win": 0.00668,
+    "avg_loss": -0.098,
+    "target_hit": 0.89825
+   },
+   "edge": 0.00036
+  },
+  {
+   "target": 0.01,
+   "stop": 0.15,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.92372,
+    "avg": -0.00183,
+    "median": 0.006,
+    "worst": -0.15453,
+    "p5": -0.07429,
+    "avg_win": 0.00689,
+    "avg_loss": -0.10749,
+    "target_hit": 0.92302
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.92994,
+    "avg": -0.00032,
+    "median": 0.006,
+    "worst": -0.154,
+    "p5": -0.04054,
+    "avg_win": 0.00704,
+    "avg_loss": -0.09798,
+    "target_hit": 0.92994
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.92351,
+    "avg": -0.0027,
+    "median": 0.006,
+    "worst": -0.18191,
+    "p5": -0.09675,
+    "avg_win": 0.00689,
+    "avg_loss": -0.11839,
+    "target_hit": 0.92351
+   },
+   "edge": 0.00087
+  },
+  {
+   "target": 0.02,
+   "stop": null,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.86004,
+    "avg": -2e-05,
+    "median": 0.016,
+    "worst": -0.33823,
+    "p5": -0.11637,
+    "avg_win": 0.01714,
+    "avg_loss": -0.10551,
+    "target_hit": 0.85584
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.87261,
+    "avg": 0.00081,
+    "median": 0.016,
+    "worst": -0.27717,
+    "p5": -0.12016,
+    "avg_win": 0.0172,
+    "avg_loss": -0.11147,
+    "target_hit": 0.85987
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.86316,
+    "avg": -0.00044,
+    "median": 0.016,
+    "worst": -0.48552,
+    "p5": -0.12608,
+    "avg_win": 0.0175,
+    "avg_loss": -0.11359,
+    "target_hit": 0.86105
+   },
+   "edge": 0.00042
+  },
+  {
+   "target": 0.02,
+   "stop": 0.1,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.82365,
+    "avg": -0.00294,
+    "median": 0.016,
+    "worst": -0.17898,
+    "p5": -0.104,
+    "avg_win": 0.01716,
+    "avg_loss": -0.09681,
+    "target_hit": 0.82155
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.82166,
+    "avg": -0.00442,
+    "median": 0.016,
+    "worst": -0.11974,
+    "p5": -0.104,
+    "avg_win": 0.01732,
+    "avg_loss": -0.10456,
+    "target_hit": 0.81529
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.82175,
+    "avg": -0.00306,
+    "median": 0.016,
+    "worst": -0.1243,
+    "p5": -0.104,
+    "avg_win": 0.01728,
+    "avg_loss": -0.0968,
+    "target_hit": 0.82105
+   },
+   "edge": 0.00012
+  },
+  {
+   "target": 0.02,
+   "stop": 0.15,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.85724,
+    "avg": -0.00105,
+    "median": 0.016,
+    "worst": -0.17898,
+    "p5": -0.154,
+    "avg_win": 0.01716,
+    "avg_loss": -0.11041,
+    "target_hit": 0.85374
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.85987,
+    "avg": -0.00151,
+    "median": 0.016,
+    "worst": -0.16917,
+    "p5": -0.154,
+    "avg_win": 0.01721,
+    "avg_loss": -0.11639,
+    "target_hit": 0.84713
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.85474,
+    "avg": -0.00198,
+    "median": 0.016,
+    "worst": -0.18191,
+    "p5": -0.154,
+    "avg_win": 0.01751,
+    "avg_loss": -0.11668,
+    "target_hit": 0.85263
+   },
+   "edge": 0.00093
+  },
+  {
+   "target": 0.03,
+   "stop": null,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.79916,
+    "avg": 0.00242,
+    "median": 0.026,
+    "worst": -0.33823,
+    "p5": -0.1378,
+    "avg_win": 0.02765,
+    "avg_loss": -0.09799,
+    "target_hit": 0.78726
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.81529,
+    "avg": 0.0049,
+    "median": 0.026,
+    "worst": -0.27717,
+    "p5": -0.1378,
+    "avg_win": 0.02948,
+    "avg_loss": -0.10359,
+    "target_hit": 0.78981
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.8014,
+    "avg": 0.00017,
+    "median": 0.026,
+    "worst": -0.48552,
+    "p5": -0.15006,
+    "avg_win": 0.02798,
+    "avg_loss": -0.11204,
+    "target_hit": 0.79649
+   },
+   "edge": 0.00225
+  },
+  {
+   "target": 0.03,
+   "stop": 0.1,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.76277,
+    "avg": -0.00099,
+    "median": 0.026,
+    "worst": -0.17898,
+    "p5": -0.104,
+    "avg_win": 0.02773,
+    "avg_loss": -0.09335,
+    "target_hit": 0.75437
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.75796,
+    "avg": -0.00081,
+    "median": 0.026,
+    "worst": -0.11974,
+    "p5": -0.104,
+    "avg_win": 0.02973,
+    "avg_loss": -0.09642,
+    "target_hit": 0.74522
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.75088,
+    "avg": -0.00329,
+    "median": 0.026,
+    "worst": -0.30903,
+    "p5": -0.104,
+    "avg_win": 0.02781,
+    "avg_loss": -0.09701,
+    "target_hit": 0.74947
+   },
+   "edge": 0.00229
+  },
+  {
+   "target": 0.03,
+   "stop": 0.15,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.79636,
+    "avg": 0.00109,
+    "median": 0.026,
+    "worst": -0.2421,
+    "p5": -0.154,
+    "avg_win": 0.02768,
+    "avg_loss": -0.10291,
+    "target_hit": 0.78516
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.80255,
+    "avg": 0.00263,
+    "median": 0.026,
+    "worst": -0.16917,
+    "p5": -0.154,
+    "avg_win": 0.02953,
+    "avg_loss": -0.1067,
+    "target_hit": 0.77707
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.79158,
+    "avg": -0.00149,
+    "median": 0.026,
+    "worst": -0.30903,
+    "p5": -0.154,
+    "avg_win": 0.028,
+    "avg_loss": -0.11352,
+    "target_hit": 0.78667
+   },
+   "edge": 0.00258
+  },
+  {
+   "target": 0.05,
+   "stop": null,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.69489,
+    "avg": 0.00488,
+    "median": 0.046,
+    "worst": -0.33823,
+    "p5": -0.14739,
+    "avg_win": 0.0461,
+    "avg_loss": -0.08901,
+    "target_hit": 0.6578
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.71975,
+    "avg": 0.00732,
+    "median": 0.046,
+    "worst": -0.27717,
+    "p5": -0.14495,
+    "avg_win": 0.0463,
+    "avg_loss": -0.09277,
+    "target_hit": 0.64968
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.69614,
+    "avg": 0.00196,
+    "median": 0.046,
+    "worst": -0.48552,
+    "p5": -0.16058,
+    "avg_win": 0.0473,
+    "avg_loss": -0.1019,
+    "target_hit": 0.67298
+   },
+   "edge": 0.00292
+  },
+  {
+   "target": 0.05,
+   "stop": 0.1,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.6501,
+    "avg": -0.00043,
+    "median": 0.046,
+    "worst": -0.17898,
+    "p5": -0.104,
+    "avg_win": 0.04647,
+    "avg_loss": -0.08758,
+    "target_hit": 0.62351
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.66879,
+    "avg": 0.00247,
+    "median": 0.046,
+    "worst": -0.11974,
+    "p5": -0.104,
+    "avg_win": 0.04771,
+    "avg_loss": -0.08888,
+    "target_hit": 0.63057
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.64281,
+    "avg": -0.00232,
+    "median": 0.046,
+    "worst": -0.30903,
+    "p5": -0.104,
+    "avg_win": 0.04728,
+    "avg_loss": -0.09159,
+    "target_hit": 0.62596
+   },
+   "edge": 0.00189
+  },
+  {
+   "target": 0.05,
+   "stop": 0.15,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.68929,
+    "avg": 0.00278,
+    "median": 0.046,
+    "worst": -0.2421,
+    "p5": -0.154,
+    "avg_win": 0.04619,
+    "avg_loss": -0.09351,
+    "target_hit": 0.6543
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.70701,
+    "avg": 0.00449,
+    "median": 0.046,
+    "worst": -0.16917,
+    "p5": -0.154,
+    "avg_win": 0.04655,
+    "avg_loss": -0.09699,
+    "target_hit": 0.64331
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.68561,
+    "avg": 0.00034,
+    "median": 0.046,
+    "worst": -0.30903,
+    "p5": -0.154,
+    "avg_win": 0.04732,
+    "avg_loss": -0.10212,
+    "target_hit": 0.66246
+   },
+   "edge": 0.00244
+  },
+  {
+   "target": null,
+   "stop": null,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.51365,
+    "avg": 0.01203,
+    "median": 0.00396,
+    "worst": -0.33823,
+    "p5": -0.15639,
+    "avg_win": 0.09703,
+    "avg_loss": -0.07774,
+    "target_hit": 0.0
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.57962,
+    "avg": 0.01847,
+    "median": 0.01596,
+    "worst": -0.27717,
+    "p5": -0.15555,
+    "avg_win": 0.08861,
+    "avg_loss": -0.07823,
+    "target_hit": 0.0
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.48561,
+    "avg": 0.00694,
+    "median": -0.004,
+    "worst": -0.48552,
+    "p5": -0.19075,
+    "avg_win": 0.10935,
+    "avg_loss": -0.08975,
+    "target_hit": 0.0
+   },
+   "edge": 0.0051
+  },
+  {
+   "target": null,
+   "stop": 0.1,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.46676,
+    "avg": 0.00503,
+    "median": -0.01128,
+    "worst": -0.17898,
+    "p5": -0.104,
+    "avg_win": 0.10015,
+    "avg_loss": -0.07823,
+    "target_hit": 0.0
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.52866,
+    "avg": 0.0126,
+    "median": 0.00729,
+    "worst": -0.11974,
+    "p5": -0.104,
+    "avg_win": 0.09379,
+    "avg_loss": -0.07847,
+    "target_hit": 0.0
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.43579,
+    "avg": 0.0025,
+    "median": -0.02544,
+    "worst": -0.30903,
+    "p5": -0.104,
+    "avg_win": 0.11234,
+    "avg_loss": -0.08235,
+    "target_hit": 0.0
+   },
+   "edge": 0.00253
+  },
+  {
+   "target": null,
+   "stop": 0.15,
+   "picks": {
+    "n": 1429,
+    "win_rate": 0.50945,
+    "avg": 0.0097,
+    "median": 0.003,
+    "worst": -0.2421,
+    "p5": -0.154,
+    "avg_win": 0.09758,
+    "avg_loss": -0.08158,
+    "target_hit": 0.0
+   },
+   "top95": {
+    "n": 157,
+    "win_rate": 0.56688,
+    "avg": 0.01511,
+    "median": 0.01246,
+    "worst": -0.16917,
+    "p5": -0.154,
+    "avg_win": 0.09001,
+    "avg_loss": -0.08292,
+    "target_hit": 0.0
+   },
+   "random": {
+    "n": 1425,
+    "win_rate": 0.47649,
+    "avg": 0.00585,
+    "median": -0.00741,
+    "worst": -0.30903,
+    "p5": -0.154,
+    "avg_win": 0.10987,
+    "avg_loss": -0.08883,
+    "target_hit": 0.0
+   },
+   "edge": 0.00385
+  }
+ ]
+}
