@@ -2,6 +2,12 @@ name: Research factors
 
 on:
   workflow_dispatch:
+    inputs:
+      universe:
+        description: "all = S&P500+IL+crypto, il = every Tel Aviv stock"
+        default: il
+        type: choice
+        options: [il, all]
 
 permissions:
   contents: write
@@ -21,11 +27,11 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python engine/research.py
+      - run: python engine/research.py "${{ inputs.universe }}"
       - run: |
           git config user.name "confluence-bot"
           git config user.email "confluence-bot@users.noreply.github.com"
           git pull --rebase -q
-          git add state/research.json
+          git add state/research*.json
           git commit -m "research $(date -u +%F)" || echo "nothing to commit"
           git push

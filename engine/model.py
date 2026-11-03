@@ -47,6 +47,7 @@ def features(df):
     f["mom12_1"] = c.shift(21) / c.shift(252) - 1
     f["vol20"] = c.pct_change().rolling(20).std()
     f["hi252"] = c / df["High"].rolling(252).max() - 1
+    f["liq"] = (c * df["Volume"]).rolling(60).median()     # traded value (local units)
     return f
 
 

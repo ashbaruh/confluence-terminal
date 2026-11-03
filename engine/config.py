@@ -12,7 +12,7 @@ MIN_BARS = 260                  # skip assets with less history
 # Exit rules (ATR multiples). Target = 2R.
 STOP_ATR = 1.5
 TARGET_ATR = 3.0
-HORIZONS = [1, 5, 10]           # max holding days tested in the backtest
+HORIZONS = [1, 5, 10, 20]           # max holding days tested in the backtest
 DEFAULT_HORIZON = 10            # used if the backtest can't decide
 
 COST = 0.0015                   # round-trip cost + slippage (0.15%)

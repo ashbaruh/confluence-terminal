@@ -5,6 +5,7 @@ For each factor: daily cross-sectional rank correlation (IC) with the next 5/10-
 top-minus-bottom quintile spread, in-sample vs out-of-sample. Then a data-driven score
 (weights fitted on in-sample ONLY) is backtested out-of-sample: top 5 a day vs random."""
 import json
+import sys
 from datetime import datetime, timezone
 
 import numpy as np
@@ -15,7 +16,7 @@ from config import OOS_FRACTION, PICKS_PER_DAY, RANDOM_SEEDS, STATE
 from data import download
 from main import clean
 from pipeline import build, market_frames
-from universe import build_universe
+from universe import build_universe, tase_all
 
 # factor name → (column, Hebrew label). Sign is NOT assumed; the data decides.
 FACTORS = {
@@ -33,7 +34,8 @@ FACTORS = {
     "vol20": ("vol20", "תנודתיות 20 יום"),
     "hi252": ("hi252", "מרחק משיא 52 שבועות"),
 }
-HS = [5, 10]
+HS = [5, 10, 20]
+IL_MIN_LIQ = 2e7   # ~₪200k/day (Yahoo quotes TASE in agorot)
 
 
 def fwd_returns(prices, panel):
@@ -80,18 +82,24 @@ def quintiles(panel, fcol, ycol):
 
 
 def main():
-    uni = build_universe()
+    mode = sys.argv[1] if len(sys.argv) > 1 else "all"
+    uni = tase_all() if mode == "il" else build_universe()
     mk, _ = market_frames(download)
     prices = download(list(uni))
     feats, panel, _ = build(prices, uni, mk)
     panel = fwd_returns(prices, panel)
+    if mode == "il":
+        before = panel["sym"].nunique()
+        panel = panel[panel["liq"] >= IL_MIN_LIQ]
+        print(f"liquidity filter: {panel['sym'].nunique()} of {before} symbols have tradable days")
     dates = np.sort(panel["date"].unique())
     split = dates[int(len(dates) * (1 - OOS_FRACTION))]
     is_p, oos_p = panel[panel["date"] < split], panel[panel["date"] >= split]
 
     out = {"generated": datetime.now(timezone.utc).isoformat(timespec="minutes"),
            "start": str(pd.Timestamp(dates[0]).date()), "split": str(pd.Timestamp(split).date()),
-           "end": str(pd.Timestamp(dates[-1]).date()), "rows": int(len(panel)), "factors": {}}
+           "end": str(pd.Timestamp(dates[-1]).date()), "rows": int(len(panel)), "mode": mode,
+           "symbols": int(panel["sym"].nunique()), "factors": {}}
 
     # 1) each factor alone
     for name, (col, label) in FACTORS.items():
@@ -114,8 +122,8 @@ def main():
     # 2) data-driven score: weights = in-sample IC (10d), only factors with |t| >= 2 in-sample
     w = {}
     for name, (col, _) in FACTORS.items():
-        s = out["factors"][name]["is_10"]
-        if s.get("ic") is not None and abs(s["t"]) >= 2:
+        s = out["factors"][name]["is_20" if mode == "il" else "is_10"]
+        if s.get("ic") is not None and abs(s.get("t", 0)) >= 2:
             w[name] = s["ic"]
     out["weights"] = w
     print("weights (in-sample):", w)
@@ -127,6 +135,8 @@ def main():
         rng = np.random.default_rng(1)
         for h in HS:
             for kind, col in (("trade", f"ret_l{h}"), ("raw", f"fwd{h}")):
+                if col not in panel:
+                    continue
                 v = panel[np.isfinite(panel[col])]
                 picks = bt.pick_no_overlap(v, "dd_score", f"xd_l{h}", PICKS_PER_DAY)
                 pool = v[v["date"].isin(picks["date"].unique())]
@@ -147,11 +157,12 @@ def main():
         # score buckets OOS: does a higher score mean a better outcome?
         o = panel[panel["date"] >= split]
         bk = (o["dd_score"] // 10).clip(upper=9)
-        res["oos_buckets_10"] = {f"{int(b)*10}-{int(b)*10+9}": {"fwd10": float(g["fwd10"].mean()),
-                                                                  "win": float((g["fwd10"] > 0).mean()), "n": int(len(g))}
-                                 for b, g in o.groupby(bk)}
+        for h in HS:
+            res[f"oos_buckets_{h}"] = {f"{int(b)*10}-{int(b)*10+9}": {"fwd": float(g[f"fwd{h}"].mean()),
+                                       "win": float((g[f"fwd{h}"] > 0).mean()), "n": int(len(g))}
+                                       for b, g in o.groupby(bk)}
         out["dd_backtest"] = res
-    (STATE / "research.json").write_text(json.dumps(clean(out), ensure_ascii=False, indent=1), encoding="utf-8")
+    (STATE / ("research_il.json" if mode == "il" else "research.json")).write_text(json.dumps(clean(out), ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

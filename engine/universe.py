@@ -53,6 +53,33 @@ def load_extra():
     return []
 
 
+def tase_all():
+    """Every equity listed in Tel Aviv, via Yahoo's screener. Falls back to the leaders list."""
+    out = {}
+    try:
+        import yfinance as yf
+        from yfinance import EquityQuery
+        q = EquityQuery("eq", ["exchange", "TLV"])
+        off = 0
+        while True:
+            r = yf.screen(q, offset=off, size=250)
+            quotes = r.get("quotes", [])
+            for x in quotes:
+                s = x.get("symbol", "")
+                if s.endswith(".TA") and x.get("quoteType", "EQUITY") == "EQUITY":
+                    out[s] = {"name": x.get("longName") or x.get("shortName") or s,
+                              "sector": x.get("sector", ""), "market": "IL"}
+            off += len(quotes)
+            if len(quotes) < 250 or off >= r.get("total", off):
+                break
+        print(f"TASE screener: {len(out)} equities")
+    except Exception as e:
+        print("TASE screener failed:", e)
+    for s, (n, sec) in IL.items():
+        out.setdefault(s, {"name": n, "sector": sec, "market": "IL"})
+    return out
+
+
 def build_universe(include_us=True):
     """Return {symbol: {"name", "sector", "market"}}."""
     u = {}
