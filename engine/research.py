@@ -43,8 +43,13 @@ def fwd_returns(prices, panel):
     for s, df in prices.items():
         O, C = df["Open"], df["Close"]
         r = pd.DataFrame({"date": df.index, "sym": s})
+        jump = C.pct_change().abs()
         for h in HS:
-            r[f"fwd{h}"] = (C.shift(-h) / O.shift(-1) - 1).to_numpy()
+            fw = C.shift(-h) / O.shift(-1) - 1
+            # Yahoo's TASE history has unit/split glitches: drop windows with a >35% one-day jump
+            bad = jump[::-1].rolling(h + 1, min_periods=1).max()[::-1].shift(-1) > 0.35
+            fw[bad] = np.nan
+            r[f"fwd{h}"] = fw.to_numpy()
         parts.append(r)
     f = pd.concat(parts, ignore_index=True)
     return panel.merge(f, on=["date", "sym"], how="left")
@@ -88,6 +93,9 @@ def main():
     prices = download(list(uni))
     feats, panel, _ = build(prices, uni, mk)
     panel = fwd_returns(prices, panel)
+    for h in HS:                                   # glitch rows also removed from stop/target trades
+        if f"ret_l{h}" in panel:
+            panel.loc[panel[f"fwd{h}"].isna(), f"ret_l{h}"] = np.nan
     if mode == "il":
         before = panel["sym"].nunique()
         panel = panel[panel["liq"] >= IL_MIN_LIQ]
@@ -158,7 +166,7 @@ def main():
         o = panel[panel["date"] >= split]
         bk = (o["dd_score"] // 10).clip(upper=9)
         for h in HS:
-            res[f"oos_buckets_{h}"] = {f"{int(b)*10}-{int(b)*10+9}": {"fwd": float(g[f"fwd{h}"].mean()),
+            res[f"oos_buckets_{h}"] = {f"{int(b)*10}-{int(b)*10+9}": {"fwd": float(g[f"fwd{h}"].mean()), "median": float(g[f"fwd{h}"].median()),
                                        "win": float((g[f"fwd{h}"] > 0).mean()), "n": int(len(g))}
                                        for b, g in o.groupby(bk)}
         out["dd_backtest"] = res
