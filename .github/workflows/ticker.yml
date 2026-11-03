@@ -1,0 +1,58 @@
+name: Analyse one symbol
+
+on:
+  workflow_dispatch:
+    inputs:
+      symbol:
+        description: "Yahoo symbol (NVDA, TEVA.TA, SOL-USD)"
+        required: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: confluence
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: site/data
+          key: site-none
+          restore-keys: site-
+      - name: Analyse
+        env:
+          SYMBOL: ${{ inputs.symbol }}
+        run: python engine/main.py ticker "$SYMBOL"
+      - name: Add to nightly scan
+        run: |
+          git config user.name "confluence-bot"
+          git config user.email "confluence-bot@users.noreply.github.com"
+          git add state/extra_tickers.json 2>/dev/null || true
+          git commit -m "add symbol" || echo "nothing to commit"
+          git push
+      - uses: actions/cache/save@v4
+        with:
+          path: site/data
+          key: site-${{ github.run_id }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

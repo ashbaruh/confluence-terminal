@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Confluence Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@500;700;900&family=IBM+Plex+Sans+Hebrew:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root{
+  --ink:#0F1B26; --panel:#15263A; --panel2:#1B3047; --line:#26405A;
+  --bone:#ECE6D8; --muted:#93A3B1; --faint:#5F7488;
+  --long:#4FBF95; --long-bg:rgba(79,191,149,.12);
+  --short:#E8746A; --short-bg:rgba(232,116,106,.12);
+  --brass:#D9AE5B; --brass-soft:rgba(217,174,91,.16);
+  --serif:"Frank Ruhl Libre",Georgia,serif;
+  --sans:"IBM Plex Sans Hebrew",system-ui,sans-serif;
+  --r-lg:14px; --r-sm:6px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--sans);font-size:15px;line-height:1.5}
+body{min-height:100vh}
+.num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+td.num{display:table-cell;direction:rtl}
+a{color:var(--brass)}
+button,input,select{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+
+/* header */
+header{border-bottom:1px solid var(--line);background:linear-gradient(180deg,#132232,var(--ink))}
+.top{display:flex;align-items:center;gap:20px;padding:16px 0 10px;flex-wrap:wrap}
+.brand{font-family:var(--serif);font-weight:900;font-size:26px;letter-spacing:-.01em;line-height:1}
+.brand small{display:block;font-family:var(--sans);font-weight:400;font-size:12px;color:var(--muted);letter-spacing:0;margin-top:4px}
+.regimes{display:flex;gap:8px;flex-wrap:wrap;margin-inline-start:auto}
+.reg{display:flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted)}
+.reg b{color:var(--bone);font-weight:600}
+.dot{width:8px;height:8px;border-radius:50%}
+.search{position:relative}
+.search input{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:8px 14px 8px 36px;width:220px}
+.search input::placeholder{color:var(--faint)}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:.6}
+.sugg{position:absolute;top:110%;inset-inline:0;background:var(--panel2);border:1px solid var(--line);border-radius:10px;z-index:30;max-height:320px;overflow:auto;display:none}
+.sugg button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:start;background:none;border:0;padding:8px 12px;cursor:pointer}
+.sugg button:hover,.sugg button:focus{background:var(--panel)}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;color:var(--muted);cursor:pointer;font-weight:500;white-space:nowrap}
+nav button[aria-selected=true]{color:var(--bone);border-color:var(--brass)}
+.iconbtn{background:none;border:1px solid var(--line);border-radius:999px;width:34px;height:34px;display:grid;place-items:center;cursor:pointer;color:var(--muted)}
+
+main{padding:28px 0 60px}
+.banner{border:1px solid var(--brass);background:var(--brass-soft);border-radius:var(--r-lg);padding:12px 16px;margin-bottom:20px;font-size:14px}
+.banner.warn{border-color:var(--short);background:var(--short-bg)}
+h1{font-family:var(--serif);font-weight:700;font-size:34px;line-height:1.15;margin:0 0 6px;letter-spacing:-.01em}
+h2{font-family:var(--serif);font-weight:700;font-size:22px;margin:36px 0 12px}
+.lede{color:var(--muted);margin:0 0 24px;max-width:70ch}
+
+/* tickets */
+.tickets{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+@media (max-width:1180px){.tickets{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){.tickets{grid-template-columns:1fr}}
+.ticket{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:18px 16px 14px;cursor:pointer;text-align:start;display:flex;flex-direction:column;gap:12px;overflow:hidden}
+.ticket::before{content:"";position:absolute;inset-block:0;right:0;width:4px;background:var(--dc)}
+.ticket:hover{border-color:var(--faint)}
+.ticket .head{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.sym{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1;direction:ltr}
+.nm{color:var(--muted);font-size:13px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:16ch;unicode-bidi:plaintext;text-align:right}
+.dir{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13px;padding:3px 9px;border-radius:999px;background:var(--dbg);color:var(--dc);white-space:nowrap}
+.gauge-row{display:flex;align-items:center;gap:12px}
+.wr{font-size:13px;color:var(--muted);line-height:1.35}
+.wr b{display:block;font-size:20px;color:var(--bone);font-weight:600}
+.plan{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:13px;border-top:1px dashed var(--line);padding-top:10px}
+.plan dt{color:var(--muted)}
+.plan dd{margin:0;text-align:left}
+.why{list-style:none;margin:0;padding:0;font-size:13px;color:var(--muted);display:grid;gap:3px}
+.why li{display:flex;gap:6px}
+.tone{flex:none;width:14px;text-align:center;font-weight:700}
+.t-plus{color:var(--long)} .t-minus{color:var(--short)} .t-mid{color:var(--faint)}
+
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-top:28px}
+@media (max-width:760px){.strip{grid-template-columns:repeat(2,1fr)}}
+.strip>div{background:var(--panel);padding:14px 16px}
+.strip .k{font-size:12px;color:var(--muted)}
+.strip .v{font-family:var(--serif);font-size:26px;font-weight:700;line-height:1.2}
+.strip .s{font-size:12px;color:var(--faint)}
+
+/* tables */
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:end;margin-bottom:14px}
+.f{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted)}
+.f select,.f input[type=text],.f input[type=number]{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 10px;min-width:120px}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
+.seg button{background:var(--panel);border:0;padding:7px 12px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--panel2);color:var(--bone);box-shadow:inset 0 -2px 0 var(--brass)}
+.tbl-wrap{border:1px solid var(--line);border-radius:var(--r-lg);overflow:auto;max-height:70vh}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{position:sticky;top:0;background:var(--panel2);color:var(--muted);font-weight:500;font-size:12.5px;text-align:start;padding:9px 12px;white-space:nowrap;cursor:pointer;user-select:none;z-index:1}
+th[aria-sort]::after{content:" ▾";color:var(--brass)}
+th[aria-sort=ascending]::after{content:" ▴"}
+td{padding:8px 12px;border-top:1px solid var(--line);white-space:nowrap}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:var(--panel)}
+.bar{display:inline-flex;align-items:center;gap:8px}
+.bar i{display:block;height:6px;border-radius:3px;background:var(--line);width:60px;position:relative;overflow:hidden}
+.bar i::after{content:"";position:absolute;inset-block:0;right:0;width:var(--w);background:var(--bc,var(--brass))}
+.pos{color:var(--long)} .neg{color:var(--short)} .mut{color:var(--muted)}
+.pill{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+
+/* analysis overlay */
+.overlay{position:fixed;inset:0;background:rgba(6,12,18,.72);z-index:50;display:none;overflow:auto}
+.overlay.open{display:block}
+.sheet{background:var(--ink);border:1px solid var(--line);border-radius:18px;max-width:1240px;margin:28px auto;padding:22px}
+@media (max-width:640px){.sheet{margin:0;border-radius:0;min-height:100vh;padding:16px}}
+.sheet-head{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.sheet-head .sym{font-size:36px}
+.price{font-family:var(--serif);font-size:28px;font-weight:700;margin-inline-start:auto;text-align:left}
+.close{flex:none}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:18px;margin-top:18px}
+@media (max-width:980px){.grid2{grid-template-columns:1fr}}
+.chart{height:460px;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--panel)}
+@media (max-width:640px){.chart{height:340px}}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:8px}
+.legend span::before{content:"";display:inline-block;width:14px;height:2px;background:var(--c);vertical-align:middle;margin-inline-end:6px}
+.side{display:flex;flex-direction:column;gap:14px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-lg);padding:14px 16px}
+.box h3{margin:0 0 10px;font-size:14px;font-weight:600;color:var(--muted)}
+.comp{display:grid;grid-template-columns:90px 1fr 34px;gap:8px;align-items:center;font-size:13px;margin-bottom:6px}
+.comp i{height:6px;border-radius:3px;background:var(--line);position:relative;overflow:hidden}
+.comp i::after{content:"";position:absolute;inset-block:0;right:0;width:var(--w);background:var(--dc)}
+.hz{width:100%;font-size:13px}
+.hz td,.hz th{padding:5px 4px;border:0;position:static;background:none;cursor:default}
+.btn{background:var(--brass);color:#1b1408;border:0;border-radius:999px;padding:9px 16px;font-weight:600;cursor:pointer}
+.btn.ghost{background:none;color:var(--bone);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:wait}
+
+/* backtest */
+.verdict{font-family:var(--serif);font-size:20px;line-height:1.4;max-width:75ch;margin:0 0 20px}
+.eq{border:1px solid var(--line);border-radius:var(--r-lg);background:var(--panel);padding:12px}
+.eq svg{width:100%;height:280px;display:block;direction:ltr}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:860px){.cols{grid-template-columns:1fr}}
+
+dialog{background:var(--panel2);color:var(--bone);border:1px solid var(--line);border-radius:16px;max-width:480px;width:calc(100% - 32px);padding:22px}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog label{display:block;font-size:13px;color:var(--muted);margin:12px 0 4px}
+dialog input{width:100%;background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px;direction:ltr}
+footer{border-top:1px solid var(--line);color:var(--faint);font-size:12.5px;padding:20px 0 40px}
+.empty{padding:40px 20px;text-align:center;color:var(--muted)}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;animation:sp 1s linear infinite;vertical-align:middle}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">Confluence<small id="stamp">טוען נתונים…</small></div>
+      <div class="regimes" id="regimes"></div>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="חפש סימול או שם…" autocomplete="off" aria-label="חיפוש נכס">
+        <div class="sugg" id="sugg" role="listbox"></div>
+      </div>
+      <button class="iconbtn" id="gear" aria-label="הגדרות ניתוח לפי דרישה" title="הגדרות">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+      </button>
+    </div>
+    <nav role="tablist" id="tabs">
+      <button role="tab" data-tab="today" aria-selected="true">המלצות היום</button>
+      <button role="tab" data-tab="scan" aria-selected="false">סורק</button>
+      <button role="tab" data-tab="track" aria-selected="false">מעקב ביצועים</button>
+      <button role="tab" data-tab="bt" aria-selected="false">בדיקה היסטורית</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banners"></div>
+
+  <section id="p-today" role="tabpanel">
+    <h1 id="today-title">המלצות היום</h1>
+    <p class="lede" id="today-lede"></p>
+    <div class="tickets" id="tickets"></div>
+    <div class="strip" id="live-strip"></div>
+    <div id="shorts-watch"></div>
+  </section>
+
+  <section id="p-scan" role="tabpanel" hidden>
+    <h1>סורק</h1>
+    <p class="lede">כל הנכסים שנסרקו הערב. לחיצה על שורה פותחת ניתוח מלא עם גרף.</p>
+    <div class="filters">
+      <div class="f">שוק<div class="seg" id="f-market">
+        <button data-v="" aria-pressed="true">הכל</button><button data-v="US" aria-pressed="false">ארה״ב</button><button data-v="IL" aria-pressed="false">ישראל</button><button data-v="CRYPTO" aria-pressed="false">קריפטו</button></div></div>
+      <div class="f">כיוון<div class="seg" id="f-dir">
+        <button data-v="" aria-pressed="true">הכל</button><button data-v="1" aria-pressed="false">למעלה</button><button data-v="-1" aria-pressed="false">למטה</button><button data-v="0" aria-pressed="false">ניטרלי</button></div></div>
+      <label class="f">ציון מינימלי<input type="number" id="f-score" min="0" max="100" value="0" style="width:90px"></label>
+      <label class="f">אחוז הצלחה מינימלי<input type="number" id="f-wr" min="0" max="100" value="0" style="width:90px"></label>
+      <label class="f">סקטור<select id="f-sector"><option value="">הכל</option></select></label>
+      <label class="f">טקסט<input type="text" id="f-text" placeholder="סימול / שם"></label>
+      <span class="mut" id="scan-count" style="font-size:13px;padding-bottom:8px"></span>
+    </div>
+    <div class="tbl-wrap"><table id="scan-tbl"><thead><tr>
+      <th data-k="sym">סימול</th><th data-k="name">שם</th><th data-k="market">שוק</th><th data-k="direction">כיוון</th>
+      <th data-k="score" aria-sort="descending">ציון</th><th data-k="win_rate">הצלחה היסטורית</th><th data-k="rsi">RSI</th>
+      <th data-k="rs">חוזק יחסי</th><th data-k="chg1d">שינוי יומי</th><th data-k="close">מחיר</th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="p-track" role="tabpanel" hidden>
+    <h1>מעקב ביצועים</h1>
+    <p class="lede">כל המלצה ננעלת בקוד לפני פתיחת המסחר ונבדקת מול מה שקרה בפועל — כולל הפסדים. "קבוצת ביקורת" היא 5 נכסים אקראיים ביום, באותם חוקי כניסה ויציאה: אם ההמלצות לא מנצחות אותה, אין בהן יתרון.</p>
+    <div class="strip" id="track-strip" style="margin-top:0"></div>
+    <div class="filters" style="margin-top:22px">
+      <div class="f">הצג<div class="seg" id="t-kind"><button data-v="pick" aria-pressed="true">המלצות</button><button data-v="control" aria-pressed="false">קבוצת ביקורת</button></div></div>
+      <div class="f">סטטוס<div class="seg" id="t-status"><button data-v="" aria-pressed="true">הכל</button><button data-v="open" aria-pressed="false">פתוחות</button><button data-v="closed" aria-pressed="false">סגורות</button></div></div>
+    </div>
+    <div class="tbl-wrap"><table id="track-tbl"><thead><tr>
+      <th>תאריך</th><th>סימול</th><th>כיוון</th><th>ציון</th><th>כניסה</th><th>יעד</th><th>סטופ</th><th>סטטוס</th><th>תוצאה</th><th>השוק באותה תקופה</th>
+    </tr></thead><tbody></tbody></table></div>
+  </section>
+
+  <section id="p-bt" role="tabpanel" hidden>
+    <h1>בדיקה היסטורית</h1>
+    <p class="verdict" id="bt-verdict"></p>
+    <div class="filters">
+      <div class="f">אופק החזקה<div class="seg" id="b-h"></div></div>
+      <div class="f">כיוון<div class="seg" id="b-side"><button data-v="long" aria-pressed="true">למעלה</button><button data-v="short" aria-pressed="false">למטה</button></div></div>
+      <div class="f">תקופה<div class="seg" id="b-per"><button data-v="out_of_sample" aria-pressed="true">מחוץ למדגם</button><button data-v="in_sample" aria-pressed="false">בתוך המדגם</button><button data-v="all" aria-pressed="false">הכל</button></div></div>
+    </div>
+    <div class="strip" id="bt-strip" style="margin-top:0"></div>
+    <h2>צמיחת הון — 5 המלצות ביום מול אקראי מול השוק</h2>
+    <div class="eq"><svg id="eq" role="img" aria-label="גרף צמיחת הון"></svg><div class="legend" id="eq-legend"></div></div>
+    <div class="cols">
+      <div><h2>כל האופקים (מחוץ למדגם)</h2><div class="tbl-wrap"><table id="bt-hz"></table></div></div>
+      <div><h2>לפי שנה</h2><div class="tbl-wrap"><table id="bt-yr"></table></div></div>
+    </div>
+    <h2>לפי שוק</h2>
+    <div class="tbl-wrap"><table id="bt-mk"></table></div>
+    <p class="lede" style="margin-top:18px;font-size:13px">איך נבדק: בכל יום נבחרות 5 המניות עם הדירוג הגבוה (ציון + אחוז הצלחה היסטורי של אותה מניה). כניסה במחיר הפתיחה של יום המסחר הבא, סטופ 1.5 ATR, יעד 3 ATR, יציאה בסגירה אחרי מקסימום ימי ההחזקה. עלות 0.15% לעסקה. מניה שכבר מוחזקת לא נבחרת שוב. "מחוץ למדגם" = 30% התקופה האחרונה. ערך p = אחוז ההגרלות האקראיות שהשיגו ממוצע טוב יותר.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">כלי ניתוח אישי מבוסס חוקים קבועים ונתוני Yahoo Finance בסוף יום. לא ייעוץ השקעות ולא המלצה לפעולה; ביצועי עבר אינם מבטיחים תוצאות. ההחלטה והביצוע — שלך בלבד.</div></footer>
+
+<div class="overlay" id="ov" aria-modal="true" role="dialog" aria-labelledby="ov-sym"><div class="sheet" id="sheet"></div></div>
+
+<dialog id="settings">
+  <h3 style="font-family:var(--serif);font-size:20px;margin:0 0 6px">ניתוח לפי דרישה</h3>
+  <p class="mut" style="font-size:13px;margin:0">כדי לנתח סימול שלא בסריקה, הדף מפעיל את GitHub Actions בשמך. הטוקן נשמר רק בדפדפן הזה.</p>
+  <label for="s-repo">Repository (owner/name)</label><input id="s-repo" placeholder="username/confluence-terminal">
+  <label for="s-token">GitHub token (fine-grained, הרשאת Actions: Read and write לריפו הזה בלבד)</label><input id="s-token" type="password" placeholder="github_pat_…">
+  <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-start"><button class="btn" id="s-save">שמור</button><button class="btn ghost" id="s-close">סגור</button></div>
+</dialog>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const S={meta:null,today:null,scan:[],hist:null,bt:null,sort:{k:"score",dir:-1},chart:null};
+const MK={US:"ארה״ב",IL:"ישראל",CRYPTO:"קריפטו"};
+const DIR={1:{t:"למעלה",c:"var(--long)",bg:"var(--long-bg)",a:"▲"},"-1":{t:"למטה",c:"var(--short)",bg:"var(--short-bg)",a:"▼"},0:{t:"ניטרלי",c:"var(--muted)",bg:"rgba(147,163,177,.12)",a:"■"}};
+const COMP={trend:"מגמה",rs:"חוזק יחסי",breakout:"פריצה",rsi:"RSI",volume:"נפח",regime:"שוק כללי"};
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pct=(v,d=1,sign=true)=>v==null?"—":`<span class="num ${sign?(v>0?"pos":v<0?"neg":""):""}">${sign&&v>0?"+":""}${(v*100).toFixed(d)}%</span>`;
+const px=v=>{if(v==null)return"—";const a=Math.abs(v);const d=a>=1000?0:a>=10?2:a>=1?3:5;return `<span class="num">${v.toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:Math.min(d,2)})}</span>`};
+const mv=(v,good)=>v==null?"—":`<span class="num ${good?"pos":"neg"}">${v>0?"+":""}${(v*100).toFixed(1)}%</span>`;
+const fname=s=>s.replace(/\^/g,"_").replace(/\//g,"_")+".json";
+const j=async(p,bust)=>{const r=await fetch(p+(bust?`?t=${Date.now()}`:""));if(!r.ok)throw new Error(r.status);return r.json()};
+const dirBadge=d=>{const x=DIR[d];return `<span class="dir" style="--dc:${x.c};--dbg:${x.bg}">${x.a} ${x.t}</span>`};
+const wrText=(wr,n)=>wr==null||!n?`<span class="mut">אין מספיק מקרים</span>`:`<span class="num">${Math.round(wr*100)}%</span> <span class="mut">מתוך <span class="num">${n}</span>${n<20?" · מדגם קטן":""}</span>`;
+const dateHe=s=>s?new Date(s+"T12:00:00").toLocaleDateString("he-IL",{day:"numeric",month:"short",year:"numeric"}):"";
+
+function gauge(score,d,size=74){
+  const r=size/2-7, c=size/2, a0=Math.PI*0.75, sweep=Math.PI*1.5, v=Math.max(0,Math.min(100,score||0))/100;
+  const pt=a=>[c+r*Math.cos(a),c+r*Math.sin(a)];
+  const arc=(f)=>{const [x0,y0]=pt(a0),[x1,y1]=pt(a0+sweep*f);return `M${x0} ${y0} A${r} ${r} 0 ${sweep*f>Math.PI?1:0} 1 ${x1} ${y1}`};
+  const col=d==-1?"var(--short)":d==1?"var(--long)":"var(--muted)";
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-label="ציון ${Math.round(score)} מתוך 100">
+   <path d="${arc(1)}" stroke="var(--line)" stroke-width="6" fill="none" stroke-linecap="round"/>
+   <path d="${arc(v)}" stroke="var(--brass)" stroke-width="6" fill="none" stroke-linecap="round"/>
+   <circle cx="${pt(a0+sweep*v)[0]}" cy="${pt(a0+sweep*v)[1]}" r="3.5" fill="${col}"/>
+   <text x="${c}" y="${c+2}" text-anchor="middle" dominant-baseline="middle" fill="var(--bone)" font-family="Frank Ruhl Libre" font-weight="900" font-size="${size*.33}">${Math.round(score)}</text>
+   <text x="${c}" y="${c+size*.3}" text-anchor="middle" fill="var(--muted)" font-size="${size*.12}">ציון</text></svg>`;
+}
+
+/* ---------- boot ---------- */
+async function boot(){
+  try{
+    [S.meta,S.today,S.scan]=await Promise.all([j("data/meta.json",1),j("data/today.json",1),j("data/screener.json",1)]);
+  }catch(e){
+    $("#tickets").innerHTML=`<div class="empty" style="grid-column:1/-1">עדיין אין נתונים. ההרצה הראשונה של GitHub Actions יוצרת אותם (כ-5 דקות אחרי ההפעלה).</div>`;
+    $("#stamp").textContent="אין נתונים עדיין";return;
+  }
+  const m=S.meta;
+  $("#stamp").textContent=`נתוני סגירה ${dateHe(m.data_date)} · ${m.assets} נכסים`;
+  $("#regimes").innerHTML=Object.entries(m.regime||{}).map(([k,r])=>`<span class="reg" title="${r.above_200?"מעל ":"מתחת ל"}ממוצע 200"><span class="dot" style="background:${r.above_200?"var(--long)":"var(--short)"}"></span>${esc(r.name)} <b>${pct(r.chg1d,2)}</b></span>`).join("");
+  let b="";
+  if(m.synthetic)b+=`<div class="banner warn"><b>נתוני הדגמה.</b> כל המספרים בדף נוצרו אקראית לבדיקת המערכת — לא נתוני שוק אמיתיים.</div>`;
+  if(m.decision&&!m.decision.long_edge)b+=`<div class="banner warn">הבדיקה ההיסטורית לא מצאה יתרון מול כניסות אקראיות בתקופה האחרונה. ההמלצות מוצגות, אבל אין להן גיבוי סטטיסטי כרגע.</div>`;
+  $("#banners").innerHTML=b;
+  renderToday(); fillSectors(); renderScan();
+  j("data/history.json",1).then(h=>{S.hist=h;renderLive();renderTrack()}).catch(()=>{});
+  j("data/backtest.json",1).then(x=>{S.bt=x;initBt()}).catch(()=>{$("#bt-verdict").textContent="אין עדיין תוצאות בדיקה."});
+  const hash=decodeURIComponent(location.hash.slice(1));
+  if(hash.startsWith("t/"))openTicker(hash.slice(2));
+}
+
+/* ---------- today ---------- */
+function renderToday(){
+  const t=S.today, H=t.horizon;
+  $("#today-title").textContent=`5 המלצות למסחר הבא`;
+  $("#today-lede").innerHTML=`מבוסס על סגירת ${dateHe(t.data_date)}. כניסה במחיר הפתיחה של יום המסחר הבא; יציאה ביעד, בסטופ, או בסגירה אחרי <b>${H}</b> ${H==1?"יום":"ימי מסחר"} — מה שקודם. אופק ההחזקה נבחר אוטומטית לפי הבדיקה ההיסטורית.`;
+  if(!t.picks.length){$("#tickets").innerHTML=`<div class="empty" style="grid-column:1/-1">אין היום אף נכס שעובר את סף הציון. זה לגיטימי — לא כל יום יש סטאפ.</div>`;return}
+  $("#tickets").innerHTML=t.picks.map(p=>{
+    const x=DIR[p.direction];
+    return `<button class="ticket" style="--dc:${x.c};--dbg:${x.bg}" data-sym="${esc(p.sym)}">
+      <div class="head"><div><div class="sym">${esc(p.sym)}</div><div class="nm" title="${esc(p.name)}">${esc(p.name)} · ${MK[p.market]||""}</div></div>${dirBadge(p.direction)}</div>
+      <div class="gauge-row">${gauge(p.score,p.direction)}<div class="wr">הצלחה היסטורית<b>${p.win_rate==null?"—":Math.round(p.win_rate*100)+"%"}</b>${p.cases?`<span class="num">${p.cases}</span> עסקאות בעבר`:"אין מספיק מקרים"}</div></div>
+      <dl class="plan"><dt>סגירה</dt><dd>${px(p.close)}</dd><dt>יעד</dt><dd>${px(p.plan.target)} ${mv(p.direction*p.plan.target_pct,1)}</dd><dt>סטופ</dt><dd>${px(p.plan.stop)} ${mv(p.direction*p.plan.stop_pct,0)}</dd></dl>
+      <ul class="why">${p.reasons.slice(0,3).map(r=>`<li><span class="tone ${r.tone=="+"?"t-plus":r.tone=="-"?"t-minus":"t-mid"}">${r.tone=="+"?"+":r.tone=="-"?"−":"·"}</span>${esc(r.text)}</li>`).join("")}</ul>
+    </button>`}).join("");
+  $$("#tickets .ticket").forEach(b=>b.onclick=()=>openTicker(b.dataset.sym));
+  const sw=t.shorts_watch||[];
+  $("#shorts-watch").innerHTML=sw.length?`<h2>אזהרות ירידה</h2><p class="lede">סיגנלי "למטה" לא נכנסים להמלצות, כי בבדיקה ההיסטורית אין להם יתרון מוכח. מוצגים כאזהרה בלבד — לשקול יציאה אם אתה מחזיק.</p>
+   <div class="tbl-wrap"><table><thead><tr><th>סימול</th><th>שם</th><th>ציון ירידה</th><th>הצלחה היסטורית</th><th>מחיר</th></tr></thead><tbody>${sw.map(p=>`<tr data-sym="${esc(p.sym)}"><td><b class="num">${esc(p.sym)}</b></td><td>${esc(p.name)}</td><td class="num">${Math.round(p.score)}</td><td>${wrText(p.win_rate,p.cases)}</td><td>${px(p.close)}</td></tr>`).join("")}</tbody></table></div>`:"";
+  $$("#shorts-watch tr[data-sym]").forEach(r=>r.onclick=()=>openTicker(r.dataset.sym));
+}
+function renderLive(){
+  const s=S.hist.summary, p=s.pick||{}, c=s.control||{};
+  $("#live-strip").innerHTML=!p.closed?`<div style="grid-column:1/-1"><div class="k">מעקב ביצועים</div><div class="s" style="font-size:14px;color:var(--muted)">עדיין אין המלצות שנסגרו. הנתונים יצטברו מההרצה הראשונה — <span class="num">${p.open||0}</span> פתוחות כרגע.</div></div>`:
+  `<div><div class="k">הצלחה בפועל</div><div class="v num">${Math.round(p.win_rate*100)}%</div><div class="s">${p.closed} עסקאות שנסגרו</div></div>
+   <div><div class="k">ממוצע לעסקה</div><div class="v">${pct(p.avg,2)}</div><div class="s">אחרי עמלות</div></div>
+   <div><div class="k">קבוצת ביקורת אקראית</div><div class="v">${pct(c.avg,2)}</div><div class="s">${c.closed||0} עסקאות</div></div>
+   <div><div class="k">יתרון על אקראי</div><div class="v">${c.avg==null?"—":pct(p.avg-c.avg,2)}</div><div class="s"><a href="#" onclick="tab('track');return false">לכל ההיסטוריה</a></div></div>`;
+}
+
+/* ---------- scanner ---------- */
+function segVal(id){return $(`#${id} [aria-pressed=true]`).dataset.v}
+function seg(id,cb){$$(`#${id} button`).forEach(b=>b.onclick=()=>{$$(`#${id} button`).forEach(x=>x.setAttribute("aria-pressed",x===b));cb()})}
+function fillSectors(){const s=[...new Set(S.scan.map(r=>r.sector).filter(Boolean))].sort();$("#f-sector").innerHTML+=s.map(x=>`<option>${esc(x)}</option>`).join("")}
+function renderScan(){
+  const mk=segVal("f-market"),d=segVal("f-dir"),ms=+$("#f-score").value||0,mw=(+$("#f-wr").value||0)/100,sec=$("#f-sector").value,q=$("#f-text").value.trim().toLowerCase();
+  let rows=S.scan.filter(r=>(!mk||r.market==mk)&&(d===""||String(r.direction)===d)&&r.score>=ms&&(!mw||(r.win_rate||0)>=mw)&&(!sec||r.sector==sec)&&(!q||r.sym.toLowerCase().includes(q)||(r.name||"").toLowerCase().includes(q)));
+  const {k,dir}=S.sort;
+  rows.sort((a,b)=>{const x=a[k],y=b[k];if(x==null)return 1;if(y==null)return -1;return (typeof x=="string"?x.localeCompare(y):x-y)*dir});
+  $("#scan-count").textContent=`${rows.length} נכסים`;
+  $("#scan-tbl tbody").innerHTML=rows.map(r=>{const x=DIR[r.direction];return `<tr data-sym="${esc(r.sym)}" tabindex="0">
+   <td><b class="num">${esc(r.sym)}</b></td><td style="max-width:220px;overflow:hidden;text-overflow:ellipsis">${esc(r.name)}</td><td class="mut">${MK[r.market]||""}</td>
+   <td>${dirBadge(r.direction)}</td><td><span class="bar" style="--bc:${x.c}"><i style="--w:${r.score}%"></i><span class="num">${Math.round(r.score)}</span></span></td>
+   <td>${wrText(r.win_rate,r.cases)}</td><td class="num">${r.rsi==null?"—":Math.round(r.rsi)}</td><td class="num">${Math.round((r.rs||0)*100)}</td><td>${pct(r.chg1d,2)}</td><td>${px(r.close)}</td></tr>`}).join("")||`<tr><td colspan="10" class="empty">אין נכסים שעונים על הסינון. נסה להוריד את הציון או אחוז ההצלחה המינימלי.</td></tr>`;
+}
+$$("#scan-tbl th").forEach(th=>th.onclick=()=>{const k=th.dataset.k;S.sort=S.sort.k===k?{k,dir:-S.sort.dir}:{k,dir:typeof (S.scan[0]||{})[k]=="string"?1:-1};$$("#scan-tbl th").forEach(t=>t.removeAttribute("aria-sort"));th.setAttribute("aria-sort",S.sort.dir>0?"ascending":"descending");renderScan()});
+$("#scan-tbl tbody").addEventListener("click",e=>{const tr=e.target.closest("tr[data-sym]");if(tr)openTicker(tr.dataset.sym)});
+$("#scan-tbl tbody").addEventListener("keydown",e=>{const tr=e.target.closest("tr[data-sym]");if(tr&&e.key==="Enter")openTicker(tr.dataset.sym)});
+seg("f-market",renderScan);seg("f-dir",renderScan);["#f-score","#f-wr","#f-sector","#f-text"].forEach(s=>$(s).addEventListener("input",renderScan));
+
+/* ---------- search ---------- */
+$("#q").addEventListener("input",()=>{
+  const q=$("#q").value.trim().toLowerCase(), box=$("#sugg");
+  if(!q){box.style.display="none";return}
+  const hits=S.scan.filter(r=>r.sym.toLowerCase().startsWith(q)||(r.name||"").toLowerCase().includes(q)).slice(0,8);
+  const exact=hits.some(r=>r.sym.toLowerCase()===q);
+  box.innerHTML=hits.map(r=>`<button data-sym="${esc(r.sym)}"><span><b class="num">${esc(r.sym)}</b> <span class="mut">${esc(r.name)}</span></span>${dirBadge(r.direction)}</button>`).join("")+(exact?"":`<button data-sym="${esc(q.toUpperCase())}"><span>נתח את <b class="num">${esc(q.toUpperCase())}</b></span><span class="mut">לא בסריקה</span></button>`);
+  box.style.display="block";
+  $$("#sugg button").forEach(b=>b.onclick=()=>{box.style.display="none";$("#q").value="";openTicker(b.dataset.sym)});
+});
+$("#q").addEventListener("keydown",e=>{if(e.key==="Enter"){const b=$("#sugg button");if(b)b.click()}if(e.key==="Escape")$("#sugg").style.display="none"});
+document.addEventListener("click",e=>{if(!e.target.closest(".search"))$("#sugg").style.display="none"});
+
+/* ---------- ticker analysis ---------- */
+async function openTicker(sym){
+  sym=sym.toUpperCase();
+  history.replaceState(null,"","#t/"+encodeURIComponent(sym));
+  $("#ov").classList.add("open");document.body.style.overflow="hidden";
+  $("#sheet").innerHTML=`<div class="empty"><span class="spin"></span> טוען ${esc(sym)}…</div>`;
+  let d;
+  try{d=await j("data/t/"+fname(sym),1)}catch(e){d=null}
+  if(!d||d.error){renderMissing(sym,d&&d.error);return}
+  renderTicker(d);
+}
+function closeTicker(){$("#ov").classList.remove("open");document.body.style.overflow="";history.replaceState(null,"",location.pathname+location.search);if(S.chart){S.chart.remove();S.chart=null}}
+$("#ov").addEventListener("click",e=>{if(e.target.id==="ov")closeTicker()});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("#ov").classList.contains("open"))closeTicker()});
+const closeBtn=`<button class="iconbtn close" onclick="closeTicker()" aria-label="סגור">✕</button>`;
+
+function renderMissing(sym,err){
+  const cfg=getCfg();
+  $("#sheet").innerHTML=`<div class="sheet-head"><div><div class="sym" id="ov-sym">${esc(sym)}</div><div class="nm" style="max-width:none">${err?esc(err):"הסימול לא נמצא בסריקה הערב"}</div></div><span style="margin-inline-start:auto"></span>${closeBtn}</div>
+   <div class="empty" style="text-align:start;max-width:60ch;padding:30px 0">
+   <p>אפשר לנתח אותו עכשיו: GitHub מוריד את הנתונים, מריץ את אותו מנוע ומעדכן את הדף. לוקח כ-2–3 דקות. מהלילה הבא הוא ייכלל בסריקה הקבועה.</p>
+   <p class="mut" style="font-size:13px">סימולים: ארה״ב כמו <span class="num">NVDA</span>, ת״א עם <span class="num">.TA</span> (לדוגמה <span class="num">TEVA.TA</span>), קריפטו עם <span class="num">-USD</span> (לדוגמה <span class="num">SOL-USD</span>).</p>
+   ${cfg.token?`<button class="btn" id="req">נתח את ${esc(sym)}</button>`:`<button class="btn" onclick="$('#settings').showModal()">הגדר ניתוח לפי דרישה</button> <a class="btn ghost" style="text-decoration:none;display:inline-block" target="_blank" rel="noopener" href="https://github.com/${esc(cfg.repo||"")}/actions/workflows/ticker.yml">או הפעל ידנית ב-GitHub</a>`}
+   <p id="req-status" class="mut" style="margin-top:14px"></p></div>`;
+  const b=$("#req"); if(b)b.onclick=()=>requestTicker(sym,b);
+}
+function getCfg(){
+  let repo=store.get("ct_repo");
+  if(!repo&&location.hostname.endsWith("github.io")){const o=location.hostname.split(".")[0],r=location.pathname.split("/").filter(Boolean)[0];if(r)repo=`${o}/${r}`}
+  return {repo:repo||"",token:store.get("ct_token")||""};
+}
+async function requestTicker(sym,btn){
+  const {repo,token}=getCfg(), st=$("#req-status");
+  btn.disabled=true; st.innerHTML=`<span class="spin"></span> שולח בקשה ל-GitHub…`;
+  try{
+    const r=await fetch(`https://api.github.com/repos/${repo}/actions/workflows/ticker.yml/dispatches`,{method:"POST",headers:{Authorization:`Bearer ${token}`,Accept:"application/vnd.github+json"},body:JSON.stringify({ref:"main",inputs:{symbol:sym}})});
+    if(r.status!==204){const t=await r.text();throw new Error(r.status===401||r.status===403?"הטוקן לא תקף או חסרה לו הרשאת Actions: Read and write":r.status===404?"הריפו או קובץ ticker.yml לא נמצאו — בדוק את שם הריפו בהגדרות":t.slice(0,140))}
+    const t0=Date.now();
+    const poll=async()=>{
+      const sec=Math.round((Date.now()-t0)/1000);
+      st.innerHTML=`<span class="spin"></span> מנתח… ${sec} שניות`;
+      try{const d=await j("data/t/"+fname(sym),1);if(d){if(d.error){st.textContent=d.error;btn.disabled=false;return}renderTicker(d);return}}catch(e){}
+      if(sec>420){st.textContent="לא התקבלה תוצאה אחרי 7 דקות. בדוק את לשונית Actions בריפו.";btn.disabled=false;return}
+      setTimeout(poll,15000);
+    };
+    setTimeout(poll,60000);
+  }catch(e){st.textContent=e.message;btn.disabled=false}
+}
+
+function renderTicker(d){
+  const x=DIR[d.direction], H=d.horizon;
+  const hz=Object.entries(d.by_horizon||{}).map(([h,v])=>`<tr><td>${h} ${h=="1"?"יום":"ימים"}${+h===H?" ●":""}</td><td>${wrText(v.win_rate,v.cases)}</td></tr>`).join("");
+  $("#sheet").innerHTML=`<div class="sheet-head">
+    <div><div class="sym" id="ov-sym">${esc(d.sym)}</div><div class="nm" style="max-width:none">${esc(d.name)} · ${MK[d.market]||""}${d.sector&&d.sector!="Custom"?" · "+esc(d.sector):""} · סגירת ${dateHe(d.date)}</div></div>
+    ${dirBadge(d.direction)}
+    <div class="price">${px(d.close)}<div style="font-size:14px;font-family:var(--sans);font-weight:500">${pct(d.chg1d,2)}</div></div>${closeBtn}
+  </div>
+  <div class="grid2">
+    <div><div class="chart" id="chart"></div>
+      <div class="legend"><span style="--c:#D9AE5B">ממוצע 50</span><span style="--c:#7E8FD6">ממוצע 200</span><span style="--c:var(--long)">יעד / תמיכה</span><span style="--c:var(--short)">סטופ / התנגדות</span><span style="--c:var(--muted)">חיצים = סיגנלים בעבר</span></div></div>
+    <div class="side">
+      <div class="box" style="display:flex;gap:14px;align-items:center">${gauge(d.score,d.direction,96)}
+        <div><div style="font-size:13px;color:var(--muted)">הצלחה היסטורית ב-${H} ימים</div><div style="font-family:var(--serif);font-size:28px;font-weight:700">${d.win_rate==null?"—":Math.round(d.win_rate*100)+"%"}</div><div class="mut" style="font-size:12.5px">${d.cases?`מתוך <span class="num">${d.cases}</span> עסקאות בלתי תלויות בעבר`:"אין מספיק מקרים בעבר"}</div></div></div>
+      <div class="box"><h3>תוכנית</h3><dl class="plan" style="border:0;padding:0;font-size:14px">
+        <dt>כניסה</dt><dd class="mut">פתיחת יום המסחר הבא</dd>
+        ${d.direction?`<dt>יעד</dt><dd>${px(d.plan.target)} ${mv(d.direction*d.plan.target_pct,1)}</dd><dt>סטופ</dt><dd>${px(d.plan.stop)} ${mv(d.direction*d.plan.stop_pct,0)}</dd>`:`<dt>מצב</dt><dd class="mut">אין סיגנל — אין תוכנית מסחר</dd>`}
+        <dt>החזקה מקסימלית</dt><dd>${H} ${H==1?"יום":"ימים"}</dd></dl></div>
+      <div class="box"><h3>ממה מורכב הציון</h3>${Object.entries(d.components).map(([k,v])=>`<div class="comp" style="--dc:${x.c}"><span>${COMP[k]}</span><i style="--w:${Math.round(v*100)}%"></i><span class="num mut">${Math.round(v*100)}</span></div>`).join("")}
+        <div class="mut" style="font-size:12px;margin-top:6px">ציון למעלה <span class="num">${Math.round(d.score_long)}</span> · ציון למטה <span class="num">${Math.round(d.score_short)}</span> · סף סיגנל 60</div></div>
+    </div>
+  </div>
+  <div class="cols" style="margin-top:18px">
+    <div class="box"><h3>למה</h3><ul class="why" style="font-size:14px;gap:6px">${d.reasons.map(r=>`<li><span class="tone ${r.tone=="+"?"t-plus":r.tone=="-"?"t-minus":"t-mid"}">${r.tone=="+"?"+":r.tone=="-"?"−":"·"}</span><span style="color:var(--bone)">${esc(r.text)}</span></li>`).join("")}</ul></div>
+    <div class="box"><h3>הצלחה היסטורית לפי אופק (כיוון ${x.t})</h3><table class="hz">${hz}</table>
+      <div class="mut" style="font-size:12px;margin-top:6px">ATR <span class="num">${(d.atr/d.close*100).toFixed(2)}%</span> · RSI <span class="num">${Math.round(d.rsi)}</span> · נפח פי <span class="num">${d.volr.toFixed(1)}</span></div></div>
+  </div>`;
+  drawChart(d);
+}
+function drawChart(d){
+  if(S.chart){S.chart.remove();S.chart=null}
+  const el=$("#chart"); if(!el||!window.LightweightCharts)return;
+  const ch=LightweightCharts.createChart(el,{autoSize:true,layout:{background:{color:"#15263A"},textColor:"#93A3B1",fontFamily:"IBM Plex Sans Hebrew"},
+    grid:{vertLines:{color:"#1d3247"},horzLines:{color:"#1d3247"}},rightPriceScale:{borderColor:"#26405A"},timeScale:{borderColor:"#26405A"},crosshair:{mode:0}});
+  S.chart=ch;
+  const cs=ch.addCandlestickSeries({upColor:"#4FBF95",downColor:"#E8746A",borderVisible:false,wickUpColor:"#4FBF95",wickDownColor:"#E8746A"});
+  cs.setData(d.bars.map(b=>({time:b[0],open:b[1],high:b[2],low:b[3],close:b[4]})));
+  const vol=ch.addHistogramSeries({priceScaleId:"v",priceFormat:{type:"volume"},color:"rgba(147,163,177,.25)"});
+  ch.priceScale("v").applyOptions({scaleMargins:{top:.82,bottom:0}});
+  vol.setData(d.bars.map(b=>({time:b[0],value:b[5]})));
+  const line=(arr,color)=>{const s=ch.addLineSeries({color,lineWidth:2,priceLineVisible:false,lastValueVisible:false,crosshairMarkerVisible:false});s.setData(d.bars.map((b,i)=>arr[i]==null?null:{time:b[0],value:arr[i]}).filter(Boolean))};
+  line(d.sma50,"#D9AE5B");line(d.sma200,"#7E8FD6");
+  (d.levels.support||[]).forEach(p=>cs.createPriceLine({price:p,color:"rgba(79,191,149,.45)",lineWidth:1,lineStyle:2,axisLabelVisible:false}));
+  (d.levels.resistance||[]).forEach(p=>cs.createPriceLine({price:p,color:"rgba(232,116,106,.45)",lineWidth:1,lineStyle:2,axisLabelVisible:false}));
+  if(d.direction){cs.createPriceLine({price:d.plan.target,color:"#4FBF95",lineWidth:2,title:"יעד"});cs.createPriceLine({price:d.plan.stop,color:"#E8746A",lineWidth:2,title:"סטופ"})}
+  cs.setMarkers((d.signals||[]).map(s=>({time:s.t,position:s.d==1?"belowBar":"aboveBar",color:s.d==1?"#4FBF95":"#E8746A",shape:s.d==1?"arrowUp":"arrowDown"})));
+  ch.timeScale().fitContent();
+}
+
+/* ---------- track record ---------- */
+function renderTrack(){
+  const s=S.hist.summary, p=s.pick||{}, c=s.control||{};
+  const cell=(k,v,sub)=>`<div><div class="k">${k}</div><div class="v">${v}</div><div class="s">${sub||""}</div></div>`;
+  $("#track-strip").innerHTML=cell("הצלחה — המלצות",p.win_rate==null?"—":`<span class="num">${Math.round(p.win_rate*100)}%</span>`,`${p.closed||0} סגורות · ${p.open||0} פתוחות`)
+   +cell("ממוצע לעסקה — המלצות",pct(p.avg,2),p.profit_factor?`Profit factor <span class="num">${p.profit_factor.toFixed(2)}</span>`:"")
+   +cell("ממוצע — קבוצת ביקורת",pct(c.avg,2),c.win_rate==null?"":`הצלחה <span class="num">${Math.round(c.win_rate*100)}%</span>`)
+   +cell("יעד / סטופ / פג זמן",p.closed?`<span class="num">${p.targets}/${p.stops}/${p.timeouts}</span>`:"—",p.market_avg==null?"":`השוק באותן תקופות ${pct(p.market_avg,2)}`);
+  const kind=segVal("t-kind"),st=segVal("t-status");
+  const rows=S.hist.picks.filter(r=>r.kind===kind&&(!st||(st==="open"?r.status!=="closed":r.status==="closed"))).reverse();
+  const stat=r=>r.status==="closed"?(r.outcome==1?`<span class="pos">✓ יעד</span>`:r.outcome==-1?`<span class="neg">✗ סטופ</span>`:`<span class="mut">⏱ פג זמן</span>`):r.status==="open"?`<span class="pill">פתוחה · יום ${r.days}</span>`:`<span class="pill">ממתינה לפתיחה</span>`;
+  $("#track-tbl tbody").innerHTML=rows.map(r=>`<tr data-sym="${esc(r.sym)}"><td>${dateHe(r.signal_date)}</td><td><b class="num">${esc(r.sym)}</b></td><td>${dirBadge(r.direction)}</td><td class="num">${Math.round(r.score)}</td><td>${px(r.entry)}</td><td>${px(r.target)}</td><td>${px(r.stop)}</td><td>${stat(r)}</td><td>${r.status==="closed"?pct(r.ret,2):r.status==="open"?`<span class="mut">${pct(r.unrealized,2)}</span>`:"—"}</td><td>${pct(r.market_ret,2)}</td></tr>`).join("")||`<tr><td colspan="10" class="empty">אין עדיין רשומות. ההמלצות הראשונות יירשמו בהרצה הלילית הבאה.</td></tr>`;
+}
+seg("t-kind",()=>S.hist&&renderTrack());seg("t-status",()=>S.hist&&renderTrack());
+$("#track-tbl tbody").addEventListener("click",e=>{const tr=e.target.closest("tr[data-sym]");if(tr)openTicker(tr.dataset.sym)});
+
+/* ---------- backtest ---------- */
+function initBt(){
+  const b=S.bt; if(b.error){$("#bt-verdict").textContent=b.error;return}
+  const hs=Object.keys(b.horizons), dec=b.decision;
+  $("#b-h").innerHTML=hs.map(h=>`<button data-v="${h}" aria-pressed="${+h===dec.horizon}">${h} ${h=="1"?"יום":"ימים"}</button>`).join("");
+  seg("b-h",renderBt);seg("b-side",renderBt);seg("b-per",renderBt);
+  const o=b.horizons[dec.horizon].long.out_of_sample;
+  $("#bt-verdict").innerHTML=dec.long_edge
+   ?`בתקופה ${dateHe(b.split_date)} – ${dateHe(b.end)} (מחוץ למדגם), 5 ההמלצות היומיות בהחזקה של ${dec.horizon} ימים הרוויחו בממוצע ${pct(o.avg,2)} לעסקה, מול ${pct(o.random_avg,2)} בבחירה אקראית ו-${pct(o.market_avg,2)} בשוק. ${dec.shorts_enabled?"גם לסיגנלי הירידה נמצא יתרון, ולכן הם נכללים.":"לסיגנלי ירידה לא נמצא יתרון, ולכן הם מוצגים כאזהרה בלבד."}`
+   :`בתקופה האחרונה (מחוץ למדגם) אף אופק החזקה לא ניצח בחירה אקראית. המערכת ממשיכה לפעול, אבל ההמלצות לא מגובות סטטיסטית כרגע.`;
+  renderBt();
+}
+function renderBt(){
+  const b=S.bt,h=segVal("b-h"),side=segVal("b-side"),per=segVal("b-per"),r=b.horizons[h][side],s=r[per];
+  const cell=(k,v,sub)=>`<div><div class="k">${k}</div><div class="v">${v}</div><div class="s">${sub||""}</div></div>`;
+  $("#bt-strip").innerHTML=!s.n?cell("אין עסקאות","—",""):
+   cell("אחוז הצלחה",`<span class="num">${Math.round(s.win_rate*100)}%</span>`,`${s.n.toLocaleString()} עסקאות`)
+   +cell("ממוצע לעסקה",pct(s.avg,2),`חציון ${pct(s.median,2)}`)
+   +cell("מול אקראי",pct(s.edge,2),`אקראי ${pct(s.random_avg,2)} · p=<span class="num">${s.p_value.toFixed(2)}</span>`)
+   +cell(side=="long"?"השוק באותן תקופות":"Profit factor",side=="long"?pct(s.market_avg,2):`<span class="num">${s.profit_factor?s.profit_factor.toFixed(2):"—"}</span>`,`יעד ${pct(s.target_pct,0,false)} · סטופ ${pct(s.stop_pct,0,false)} · זמן ${pct(s.timeout_pct,0,false)}`);
+  drawEq(r.equity,b.split_date);
+  const hzRows=Object.entries(b.horizons).flatMap(([hh,v])=>["long","short"].map(sd=>{const o=v[sd].out_of_sample;return `<tr${hh==h&&sd==side?' style="background:var(--panel2)"':""}><td>${hh} ${hh=="1"?"יום":"ימים"}</td><td>${sd=="long"?"למעלה":"למטה"}</td><td class="num">${o.n||0}</td><td>${o.win_rate==null?"—":`<span class="num">${Math.round(o.win_rate*100)}%</span>`}</td><td>${pct(o.avg,2)}</td><td>${pct(o.random_avg,2)}</td><td>${pct(o.edge,2)}</td><td class="num">${o.p_value==null?"—":o.p_value.toFixed(2)}</td></tr>`}));
+  $("#bt-hz").innerHTML=`<thead><tr><th>אופק</th><th>כיוון</th><th>עסקאות</th><th>הצלחה</th><th>ממוצע</th><th>אקראי</th><th>יתרון</th><th>p</th></tr></thead><tbody>${hzRows.join("")}</tbody>`;
+  $("#bt-yr").innerHTML=`<thead><tr><th>שנה</th><th>עסקאות</th><th>הצלחה</th><th>ממוצע</th></tr></thead><tbody>${Object.entries(r.by_year).map(([y,v])=>`<tr><td class="num">${y}</td><td class="num">${v.n}</td><td>${v.win_rate==null?"—":`<span class="num">${Math.round(v.win_rate*100)}%</span>`}</td><td>${pct(v.avg,2)}</td></tr>`).join("")}</tbody>`;
+  $("#bt-mk").innerHTML=`<thead><tr><th>שוק</th><th>עסקאות</th><th>הצלחה</th><th>ממוצע</th><th>Profit factor</th><th>הכי טובה</th><th>הכי גרועה</th></tr></thead><tbody>${Object.entries(r.by_market).map(([m,v])=>`<tr><td>${MK[m]||m}</td><td class="num">${v.n}</td><td>${v.win_rate==null?"—":`<span class="num">${Math.round(v.win_rate*100)}%</span>`}</td><td>${pct(v.avg,2)}</td><td class="num">${v.profit_factor?v.profit_factor.toFixed(2):"—"}</td><td>${pct(v.best,1)}</td><td>${pct(v.worst,1)}</td></tr>`).join("")}</tbody>`;
+}
+function drawEq(eq,split){
+  const svg=$("#eq"),W=svg.clientWidth||900,H=280,p={l:52,r:12,t:12,b:26};
+  const ser=[["strategy","#D9AE5B","5 המלצות ביום"],["random","#93A3B1","אקראי"],["market","#7E8FD6","השוק"]].filter(s=>eq[s[0]]);
+  const all=ser.flatMap(s=>eq[s[0]]),mn=Math.min(...all),mx=Math.max(...all),n=eq.dates.length;
+  const X=i=>W-p.r-(i/(n-1))*(W-p.l-p.r), Y=v=>p.t+(1-(v-mn)/((mx-mn)||1))*(H-p.t-p.b); // RTL-agnostic: time flows left→right
+  const Xl=i=>p.l+(i/(n-1))*(W-p.l-p.r);
+  let g="";
+  for(let k=0;k<=4;k++){const v=mn+(mx-mn)*k/4,y=Y(v);g+=`<line x1="${p.l}" x2="${W-p.r}" y1="${y}" y2="${y}" stroke="#1d3247"/><text x="${p.l-8}" y="${y+4}" text-anchor="end" fill="#5F7488" font-size="11">${((v-1)*100).toFixed(0)}%</text>`}
+  const si=eq.dates.findIndex(d=>d>=split);
+  if(si>0)g+=`<rect x="${Xl(si)}" y="${p.t}" width="${W-p.r-Xl(si)}" height="${H-p.t-p.b}" fill="rgba(217,174,91,.06)"/><text x="${Xl(si)+6}" y="${p.t+14}" fill="#D9AE5B" font-size="11">מחוץ למדגם</text>`;
+  [0,Math.floor(n/2),n-1].forEach(i=>g+=`<text x="${Xl(i)}" y="${H-6}" text-anchor="${i==0?"start":i==n-1?"end":"middle"}" fill="#5F7488" font-size="11">${eq.dates[i]}</text>`);
+  ser.forEach(([k,c])=>{g+=`<polyline fill="none" stroke="${c}" stroke-width="${k=="strategy"?2.2:1.5}" points="${eq[k].map((v,i)=>`${Xl(i).toFixed(1)},${Y(v).toFixed(1)}`).join(" ")}"/>`});
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);svg.innerHTML=g;
+  $("#eq-legend").innerHTML=ser.map(([k,c,t])=>`<span style="--c:${c}">${t} <span class="num">${((eq[k][n-1]-1)*100).toFixed(1)}%</span></span>`).join("");
+}
+window.addEventListener("resize",()=>{if(S.bt&&!$("#p-bt").hidden)renderBt()});
+
+/* ---------- tabs & settings ---------- */
+function tab(id){$$("#tabs button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===id));$$("main>section").forEach(s=>s.hidden=s.id!=="p-"+id);if(id==="bt"&&S.bt&&!S.bt.error)renderBt()}
+$$("#tabs button").forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+$("#gear").onclick=()=>{const c=getCfg();$("#s-repo").value=c.repo;$("#s-token").value=c.token;$("#settings").showModal()};
+$("#s-close").onclick=()=>$("#settings").close();
+$("#s-save").onclick=()=>{store.set("ct_repo",$("#s-repo").value.trim());store.set("ct_token",$("#s-token").value.trim());$("#settings").close();const s=$("#ov-sym");if(s&&$("#req-status")!==null)renderMissing(s.textContent)};
+boot();
+</script>
+</body>
+</html>
