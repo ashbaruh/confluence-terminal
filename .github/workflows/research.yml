@@ -7,7 +7,7 @@ on:
         description: "all = S&P500+IL+crypto, il = every Tel Aviv stock"
         default: il
         type: choice
-        options: [il, all]
+        options: [il, all, exits]
 
 permissions:
   contents: write
@@ -27,11 +27,15 @@ jobs:
           python-version: "3.12"
           cache: pip
       - run: pip install -r requirements.txt
-      - run: python engine/research.py "${{ inputs.universe }}"
+      - name: Run
+        env:
+          U: ${{ inputs.universe }}
+        run: |
+          if [ "$U" = "exits" ]; then python engine/exits.py; else python engine/research.py "$U"; fi
       - run: |
           git config user.name "confluence-bot"
           git config user.email "confluence-bot@users.noreply.github.com"
-          git add state/research*.json
+          git add state/research*.json state/exits*.json
           git commit -m "research $(date -u +%F)" || echo "nothing to commit"
           git pull --rebase -q
           git push
