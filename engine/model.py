@@ -38,6 +38,15 @@ def features(df):
     vavg = df["Volume"].rolling(20).mean().shift(1)
     f["volr"] = (df["Volume"] / vavg.replace(0, np.nan)).fillna(1.0)
     f["slope50"] = f["sma50"] / f["sma50"].shift(10) - 1
+    # research candidates
+    f["rsi2"] = rsi(c, 2)
+    f["ret5"] = c.pct_change(5)
+    f["ret1"] = c.pct_change(1)
+    f["dist20"] = c / f["sma20"] - 1
+    f["dist200"] = c / f["sma200"] - 1
+    f["mom12_1"] = c.shift(21) / c.shift(252) - 1
+    f["vol20"] = c.pct_change().rolling(20).std()
+    f["hi252"] = c / df["High"].rolling(252).max() - 1
     return f
 
 
