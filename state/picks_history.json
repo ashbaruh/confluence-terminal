@@ -1151,7 +1151,7 @@
   "cases": 81,
   "horizon": 10,
   "atr": 0.5742748018473351,
-  "status": "open",
+  "status": "closed",
   "ref_close": 19.91,
   "entry": 20.11,
   "stop": 19.2486,
@@ -1159,7 +1159,12 @@
   "entry_date": "2026-11-09",
   "last": 19.88,
   "unrealized": -0.01294,
-  "days": 9
+  "days": 10,
+  "outcome": 0,
+  "exit": 19.63,
+  "exit_date": "2026-11-20",
+  "ret": -0.02537,
+  "market_ret": -0.07027
  },
  {
   "id": "2026-11-07-pick-APP",
@@ -1233,7 +1238,7 @@
   "cases": 66,
   "horizon": 10,
   "atr": 3.49728780375894,
-  "status": "open",
+  "status": "closed",
   "ref_close": 150.29,
   "entry": 149.6497,
   "stop": 144.4038,
@@ -1241,7 +1246,12 @@
   "entry_date": "2026-11-09",
   "last": 148.28,
   "unrealized": -0.01065,
-  "days": 9
+  "days": 10,
+  "outcome": 0,
+  "exit": 149.53,
+  "exit_date": "2026-11-20",
+  "ret": -0.0023,
+  "market_ret": -0.07027
  },
  {
   "id": "2026-11-07-pick-DGX",
@@ -1257,7 +1267,7 @@
   "cases": 91,
   "horizon": 10,
   "atr": 6.710321668397272,
-  "status": "open",
+  "status": "closed",
   "ref_close": 255.63,
   "entry": 257.34,
   "stop": 247.2745,
@@ -1265,7 +1275,12 @@
   "entry_date": "2026-11-09",
   "last": 259.09,
   "unrealized": 0.0053,
-  "days": 9
+  "days": 10,
+  "outcome": 0,
+  "exit": 258.28,
+  "exit_date": "2026-11-20",
+  "ret": 0.00215,
+  "market_ret": -0.07027
  },
  {
   "id": "2026-11-07-control-PSA",
@@ -1397,7 +1412,7 @@
   "cases": 104,
   "horizon": 10,
   "atr": 12.967126661806907,
-  "status": "open",
+  "status": "closed",
   "ref_close": 353.27,
   "entry": 354.2,
   "stop": 334.7493,
@@ -1405,7 +1420,12 @@
   "entry_date": "2026-11-09",
   "last": 357.69,
   "unrealized": 0.00835,
-  "days": 9
+  "days": 10,
+  "outcome": 0,
+  "exit": 357.71,
+  "exit_date": "2026-11-20",
+  "ret": 0.00841,
+  "market_ret": -0.07027
  },
  {
   "id": "2026-11-10-pick-FERG",
@@ -1572,9 +1592,9 @@
   "stop": 113.3939,
   "target": 123.8908,
   "entry_date": "2026-11-10",
-  "last": 119.09,
-  "unrealized": 0.0173,
-  "days": 8
+  "last": 119.36,
+  "unrealized": 0.01961,
+  "days": 9
  },
  {
   "id": "2026-11-10-control-TYL",
@@ -1596,9 +1616,9 @@
   "stop": 393.7898,
   "target": 461.5004,
   "entry_date": "2026-11-10",
-  "last": 404.16,
-  "unrealized": -0.0308,
-  "days": 8
+  "last": 404.44,
+  "unrealized": -0.03013,
+  "days": 9
  },
  {
   "id": "2026-11-10-control-NXPI",
@@ -1614,7 +1634,7 @@
   "cases": 80,
   "horizon": 10,
   "atr": 11.677579264398783,
-  "status": "open",
+  "status": "closed",
   "ref_close": 256.42,
   "entry": 251.82,
   "stop": 234.3036,
@@ -1622,7 +1642,12 @@
   "entry_date": "2026-11-10",
   "last": 251.76,
   "unrealized": -0.00174,
-  "days": 8
+  "days": 9,
+  "outcome": -1,
+  "exit": 234.3036,
+  "exit_date": "2026-11-20",
+  "ret": -0.07106,
+  "market_ret": -0.07772
  },
  {
   "id": "2026-11-10-control-STLD",
@@ -1638,7 +1663,7 @@
   "cases": 95,
   "horizon": 10,
   "atr": 9.935918911463345,
-  "status": "open",
+  "status": "closed",
   "ref_close": 227.56,
   "entry": 226.48,
   "stop": 211.5761,
@@ -1646,7 +1671,12 @@
   "entry_date": "2026-11-10",
   "last": 218.26,
   "unrealized": -0.03779,
-  "days": 8
+  "days": 9,
+  "outcome": -1,
+  "exit": 211.5761,
+  "exit_date": "2026-11-20",
+  "ret": -0.06731,
+  "market_ret": -0.07772
  },
  {
   "id": "2026-11-10-control-BG",
@@ -1726,9 +1756,9 @@
   "stop": 161.2134,
   "target": 176.1432,
   "entry_date": "2026-11-11",
-  "last": 167.85,
-  "unrealized": 0.00849,
-  "days": 7
+  "last": 169.37,
+  "unrealized": 0.01763,
+  "days": 8
  },
  {
   "id": "2026-11-11-pick-WELL",
@@ -1750,9 +1780,9 @@
   "stop": 237.2753,
   "target": 263.1494,
   "entry_date": "2026-11-11",
-  "last": 243.19,
-  "unrealized": -0.01252,
-  "days": 7
+  "last": 240.34,
+  "unrealized": -0.02411,
+  "days": 8
  },
  {
   "id": "2026-11-11-pick-ICE",
@@ -1803,9 +1833,9 @@
   "stop": 79.3633,
   "target": 87.9633,
   "entry_date": "2026-11-11",
-  "last": 79.5,
-  "unrealized": -0.0347,
-  "days": 7
+  "last": 79.68,
+  "unrealized": -0.03251,
+  "days": 8
  },
  {
   "id": "2026-11-11-control-KEY",
@@ -1879,7 +1909,7 @@
   "cases": 112,
   "horizon": 10,
   "atr": 95.64189742578122,
-  "status": "open",
+  "status": "closed",
   "ref_close": 1105.9301,
   "entry": 1179.9833,
   "stop": 1036.5205,
@@ -1887,7 +1917,12 @@
   "entry_date": "2026-11-11",
   "last": 1114.02,
   "unrealized": -0.0574,
-  "days": 7
+  "days": 8,
+  "outcome": -1,
+  "exit": 1036.5205,
+  "exit_date": "2026-11-20",
+  "ret": -0.12308,
+  "market_ret": -0.08852
  },
  {
   "id": "2026-11-11-control-BTC-USD",
@@ -1961,7 +1996,7 @@
   "cases": 90,
   "horizon": 10,
   "atr": 8.655672845039259,
-  "status": "open",
+  "status": "closed",
   "ref_close": 355.63,
   "entry": 357.81,
   "stop": 344.8265,
@@ -1969,7 +2004,12 @@
   "entry_date": "2026-11-12",
   "last": 349.21,
   "unrealized": -0.02554,
-  "days": 6
+  "days": 7,
+  "outcome": -1,
+  "exit": 344.8265,
+  "exit_date": "2026-11-20",
+  "ret": -0.03779,
+  "market_ret": -0.08511
  },
  {
   "id": "2026-11-12-pick-CME",
@@ -2020,9 +2060,9 @@
   "stop": 359.2611,
   "target": 405.0977,
   "entry_date": "2026-11-12",
-  "last": 368.88,
-  "unrealized": -0.01661,
-  "days": 6
+  "last": 367.13,
+  "unrealized": -0.02128,
+  "days": 7
  },
  {
   "id": "2026-11-12-pick-CBOE",
@@ -2160,9 +2200,9 @@
   "stop": 273.3945,
   "target": 380.961,
   "entry_date": "2026-11-12",
-  "last": 306.98,
-  "unrealized": -0.00884,
-  "days": 6
+  "last": 291.14,
+  "unrealized": -0.06006,
+  "days": 7
  },
  {
   "id": "2026-11-12-control-HST",
@@ -2213,9 +2253,9 @@
   "stop": 75.3851,
   "target": 82.6899,
   "entry_date": "2026-11-12",
-  "last": 77.4,
-  "unrealized": -0.0069,
-  "days": 6
+  "last": 78.31,
+  "unrealized": 0.0048,
+  "days": 7
  },
  {
   "id": "2026-11-13-pick-AMD",
@@ -2409,9 +2449,9 @@
   "stop": 102.2181,
   "target": 115.5137,
   "entry_date": "2026-11-13",
-  "last": 104.47,
-  "unrealized": -0.02194,
-  "days": 5
+  "last": 103.13,
+  "unrealized": -0.03451,
+  "days": 6
  },
  {
   "id": "2026-11-13-control-URI",
@@ -2491,9 +2531,9 @@
   "stop": 33.6344,
   "target": 39.2312,
   "entry_date": "2026-11-13",
-  "last": 36.3,
-  "unrealized": 0.02104,
-  "days": 5
+  "last": 35.55,
+  "unrealized": -9e-05,
+  "days": 6
  },
  {
   "id": "2026-11-14-pick-ISRA.TA",
@@ -2515,9 +2555,9 @@
   "stop": 210.8478,
   "target": 241.0045,
   "entry_date": "2026-11-13",
-  "last": 220.2,
-  "unrealized": -0.00467,
-  "days": 4
+  "last": 220.3,
+  "unrealized": -0.00422,
+  "days": 5
  },
  {
   "id": "2026-11-14-pick-TEVA.TA",
@@ -2533,7 +2573,7 @@
   "cases": 76,
   "horizon": 10,
   "atr": 395.5683600897136,
-  "status": "open",
+  "status": "closed",
   "ref_close": 13970.0,
   "entry": 14040.0,
   "stop": 13446.6475,
@@ -2541,7 +2581,12 @@
   "entry_date": "2026-11-13",
   "last": 13920.0,
   "unrealized": -0.01005,
-  "days": 4
+  "days": 5,
+  "outcome": -1,
+  "exit": 13446.6475,
+  "exit_date": "2026-11-19",
+  "ret": -0.04376,
+  "market_ret": -0.04113
  },
  {
   "id": "2026-11-14-pick-CL",
@@ -2679,9 +2724,9 @@
   "stop": 126.2116,
   "target": 146.6368,
   "entry_date": "2026-11-16",
-  "last": 128.32,
-  "unrealized": -0.03683,
-  "days": 4
+  "last": 126.72,
+  "unrealized": -0.04886,
+  "days": 5
  },
  {
   "id": "2026-11-14-control-AZRG.TA",
@@ -2705,7 +2750,7 @@
   "entry_date": "2026-11-13",
   "last": 32470.0,
   "unrealized": -0.05153,
-  "days": 4
+  "days": 5
  },
  {
   "id": "2026-11-14-control-AMD",
@@ -2721,7 +2766,7 @@
   "cases": 94,
   "horizon": 10,
   "atr": 41.935190848893306,
-  "status": "open",
+  "status": "closed",
   "ref_close": 534.06,
   "entry": 503.45,
   "stop": 440.5472,
@@ -2729,7 +2774,12 @@
   "entry_date": "2026-11-16",
   "last": 489.19,
   "unrealized": -0.02982,
-  "days": 4
+  "days": 5,
+  "outcome": -1,
+  "exit": 440.5472,
+  "exit_date": "2026-11-20",
+  "ret": -0.12644,
+  "market_ret": -0.07984
  },
  {
   "id": "2026-11-14-control-MGDL.TA",
@@ -2751,9 +2801,9 @@
   "stop": 1620.3729,
   "target": 1964.2542,
   "entry_date": "2026-11-13",
-  "last": 1798.0,
-  "unrealized": 0.03481,
-  "days": 4
+  "last": 1745.0,
+  "unrealized": 0.00426,
+  "days": 5
  },
  {
   "id": "2026-11-17-pick-RSG",
@@ -2862,9 +2912,9 @@
   "stop": 75.5787,
   "target": 82.5426,
   "entry_date": "2026-11-17",
-  "last": 77.4,
-  "unrealized": -0.00792,
-  "days": 3
+  "last": 78.31,
+  "unrealized": 0.00376,
+  "days": 4
  },
  {
   "id": "2026-11-17-pick-TYL",
@@ -2886,9 +2936,9 @@
   "stop": 399.648,
   "target": 459.234,
   "entry_date": "2026-11-17",
-  "last": 404.16,
-  "unrealized": -0.03809,
-  "days": 3
+  "last": 404.44,
+  "unrealized": -0.03742,
+  "days": 4
  },
  {
   "id": "2026-11-17-control-PRU",
@@ -2904,7 +2954,7 @@
   "cases": 87,
   "horizon": 10,
   "atr": 2.8575323902462304,
-  "status": "open",
+  "status": "closed",
   "ref_close": 122.91,
   "entry": 122.56,
   "stop": 118.2737,
@@ -2912,7 +2962,12 @@
   "entry_date": "2026-11-17",
   "last": 120.3,
   "unrealized": -0.01994,
-  "days": 3
+  "days": 4,
+  "outcome": -1,
+  "exit": 118.2737,
+  "exit_date": "2026-11-20",
+  "ret": -0.03647,
+  "market_ret": -0.06579
  },
  {
   "id": "2026-11-17-control-CSGP",
@@ -2986,7 +3041,7 @@
   "cases": 84,
   "horizon": 10,
   "atr": 20.09113971937717,
-  "status": "open",
+  "status": "closed",
   "ref_close": 627.95,
   "entry": 627.95,
   "stop": 597.8133,
@@ -2994,7 +3049,12 @@
   "entry_date": "2026-11-17",
   "last": 621.83,
   "unrealized": -0.01125,
-  "days": 3
+  "days": 4,
+  "outcome": -1,
+  "exit": 597.8133,
+  "exit_date": "2026-11-20",
+  "ret": -0.04949,
+  "market_ret": -0.06579
  },
  {
   "id": "2026-11-17-control-DVA",
@@ -3047,7 +3107,7 @@
   "entry_date": "2026-11-18",
   "last": 15.02,
   "unrealized": -0.0015,
-  "days": 2
+  "days": 3
  },
  {
   "id": "2026-11-18-pick-PTC",
@@ -3069,9 +3129,9 @@
   "stop": 193.1755,
   "target": 200.8991,
   "entry_date": "2026-11-18",
-  "last": 195.63,
-  "unrealized": -0.00211,
-  "days": 2
+  "last": 195.1,
+  "unrealized": -0.00482,
+  "days": 3
  },
  {
   "id": "2026-11-18-pick-GILD",
@@ -3093,9 +3153,9 @@
   "stop": 161.7938,
   "target": 182.7524,
   "entry_date": "2026-11-18",
-  "last": 166.53,
-  "unrealized": -0.01483,
-  "days": 2
+  "last": 166.43,
+  "unrealized": -0.01542,
+  "days": 3
  },
  {
   "id": "2026-11-18-pick-KO",
@@ -3146,9 +3206,9 @@
   "stop": 35.9753,
   "target": 42.2294,
   "entry_date": "2026-11-18",
-  "last": 38.74,
-  "unrealized": 0.01637,
-  "days": 2
+  "last": 38.44,
+  "unrealized": 0.00848,
+  "days": 3
  },
  {
   "id": "2026-11-18-control-ON",
@@ -3164,7 +3224,7 @@
   "cases": 76,
   "horizon": 10,
   "atr": 4.221042746386076,
-  "status": "open",
+  "status": "closed",
   "ref_close": 67.93,
   "entry": 68.72,
   "stop": 62.3884,
@@ -3172,7 +3232,12 @@
   "entry_date": "2026-11-18",
   "last": 65.72,
   "unrealized": -0.04516,
-  "days": 2
+  "days": 3,
+  "outcome": -1,
+  "exit": 62.3884,
+  "exit_date": "2026-11-20",
+  "ret": -0.09364,
+  "market_ret": -0.0594
  },
  {
   "id": "2026-11-18-control-MRSH",
@@ -3194,9 +3259,9 @@
   "stop": 197.3576,
   "target": 218.0647,
   "entry_date": "2026-11-18",
-  "last": 204.66,
-  "unrealized": 0.00046,
-  "days": 2
+  "last": 206.22,
+  "unrealized": 0.0081,
+  "days": 3
  },
  {
   "id": "2026-11-18-control-ANET",
@@ -3212,7 +3277,7 @@
   "cases": 108,
   "horizon": 10,
   "atr": 11.794229201377476,
-  "status": "open",
+  "status": "closed",
   "ref_close": 186.42,
   "entry": 189.22,
   "stop": 171.5287,
@@ -3220,7 +3285,12 @@
   "entry_date": "2026-11-18",
   "last": 193.94,
   "unrealized": 0.02344,
-  "days": 1
+  "days": 3,
+  "outcome": -1,
+  "exit": 171.5287,
+  "exit_date": "2026-11-20",
+  "ret": -0.095,
+  "market_ret": -0.0594
  },
  {
   "id": "2026-11-18-control-MAR",
@@ -3236,7 +3306,7 @@
   "cases": 107,
   "horizon": 10,
   "atr": 9.617332889707837,
-  "status": "open",
+  "status": "closed",
   "ref_close": 422.74,
   "entry": 422.5745,
   "stop": 408.1485,
@@ -3244,7 +3314,12 @@
   "entry_date": "2026-11-18",
   "last": 414.04,
   "unrealized": -0.0217,
-  "days": 2
+  "days": 3,
+  "outcome": -1,
+  "exit": 408.1485,
+  "exit_date": "2026-11-20",
+  "ret": -0.03564,
+  "market_ret": -0.0594
  },
  {
   "id": "2026-11-18-control-FE",
@@ -3266,9 +3341,9 @@
   "stop": 45.7319,
   "target": 48.9662,
   "entry_date": "2026-11-18",
-  "last": 47.13,
-  "unrealized": 0.00534,
-  "days": 2
+  "last": 47.03,
+  "unrealized": 0.0032,
+  "days": 3
  },
  {
   "id": "2026-11-19-pick-DIS",
@@ -3284,7 +3359,7 @@
   "cases": 59,
   "horizon": 10,
   "atr": 2.9245609334374496,
-  "status": "open",
+  "status": "closed",
   "ref_close": 122.36,
   "entry": 121.97,
   "stop": 117.5832,
@@ -3292,7 +3367,12 @@
   "entry_date": "2026-11-19",
   "last": 120.25,
   "unrealized": -0.0156,
-  "days": 1
+  "days": 2,
+  "outcome": -1,
+  "exit": 117.5832,
+  "exit_date": "2026-11-20",
+  "ret": -0.03747,
+  "market_ret": -0.06461
  },
  {
   "id": "2026-11-19-pick-DRI",
@@ -3308,7 +3388,7 @@
   "cases": 83,
   "horizon": 10,
   "atr": 5.909365574361739,
-  "status": "open",
+  "status": "closed",
   "ref_close": 239.22,
   "entry": 236.38,
   "stop": 227.516,
@@ -3316,7 +3396,12 @@
   "entry_date": "2026-11-19",
   "last": 231.4,
   "unrealized": -0.02257,
-  "days": 1
+  "days": 2,
+  "outcome": -1,
+  "exit": 227.516,
+  "exit_date": "2026-11-20",
+  "ret": -0.039,
+  "market_ret": -0.06461
  },
  {
   "id": "2026-11-19-pick-SPG",
@@ -3332,7 +3417,7 @@
   "cases": 96,
   "horizon": 10,
   "atr": 4.136682560409782,
-  "status": "open",
+  "status": "closed",
   "ref_close": 231.38,
   "entry": 230.72,
   "stop": 224.515,
@@ -3340,7 +3425,12 @@
   "entry_date": "2026-11-19",
   "last": 225.22,
   "unrealized": -0.02534,
-  "days": 1
+  "days": 2,
+  "outcome": -1,
+  "exit": 224.515,
+  "exit_date": "2026-11-20",
+  "ret": -0.02839,
+  "market_ret": -0.06461
  },
  {
   "id": "2026-11-19-pick-COST",
@@ -3362,9 +3452,9 @@
   "stop": 1061.4237,
   "target": 1145.6526,
   "entry_date": "2026-11-19",
-  "last": 1093.83,
-  "unrealized": 0.00247,
-  "days": 1
+  "last": 1102.15,
+  "unrealized": 0.01011,
+  "days": 2
  },
  {
   "id": "2026-11-19-pick-VLTO",
@@ -3380,8 +3470,15 @@
   "cases": 35,
   "horizon": 10,
   "atr": 2.5814846893701784,
-  "status": "pending",
-  "ref_close": 117.87
+  "status": "open",
+  "ref_close": 117.87,
+  "entry": 117.03,
+  "stop": 113.1578,
+  "target": 124.7745,
+  "entry_date": "2026-11-19",
+  "last": 116.63,
+  "unrealized": -0.00492,
+  "days": 2
  },
  {
   "id": "2026-11-19-control-EME",
@@ -3397,7 +3494,7 @@
   "cases": 101,
   "horizon": 10,
   "atr": 29.543050288151715,
-  "status": "open",
+  "status": "closed",
   "ref_close": 646.23,
   "entry": 658.11,
   "stop": 613.7954,
@@ -3405,7 +3502,12 @@
   "entry_date": "2026-11-19",
   "last": 636.08,
   "unrealized": -0.03497,
-  "days": 1
+  "days": 2,
+  "outcome": -1,
+  "exit": 613.7954,
+  "exit_date": "2026-11-20",
+  "ret": -0.06884,
+  "market_ret": -0.06461
  },
  {
   "id": "2026-11-19-control-DD",
@@ -3421,7 +3523,7 @@
   "cases": 80,
   "horizon": 10,
   "atr": 4.026138132235341,
-  "status": "open",
+  "status": "closed",
   "ref_close": 150.23,
   "entry": 151.14,
   "stop": 145.1008,
@@ -3429,7 +3531,12 @@
   "entry_date": "2026-11-19",
   "last": 149.69,
   "unrealized": -0.01109,
-  "days": 1
+  "days": 2,
+  "outcome": -1,
+  "exit": 145.1008,
+  "exit_date": "2026-11-20",
+  "ret": -0.04146,
+  "market_ret": -0.06461
  },
  {
   "id": "2026-11-19-control-CPAY",
@@ -3478,9 +3585,9 @@
   "stop": 167.3318,
   "target": 181.0364,
   "entry_date": "2026-11-19",
-  "last": 168.69,
-  "unrealized": -0.02017,
-  "days": 1
+  "last": 168.28,
+  "unrealized": -0.02256,
+  "days": 2
  },
  {
   "id": "2026-11-19-control-KDP",
@@ -3502,9 +3609,9 @@
   "stop": 32.8622,
   "target": 38.2855,
   "entry_date": "2026-11-19",
-  "last": 34.41,
-  "unrealized": -0.009,
-  "days": 1
+  "last": 34.84,
+  "unrealized": 0.0034,
+  "days": 2
  },
  {
   "id": "2026-11-20-pick-ELAL.TA",
@@ -3520,8 +3627,15 @@
   "cases": 83,
   "horizon": 10,
   "atr": 75.54769285357004,
-  "status": "pending",
-  "ref_close": 2183.0
+  "status": "open",
+  "ref_close": 2183.0,
+  "entry": 2184.0,
+  "stop": 2070.6785,
+  "target": 2410.6431,
+  "entry_date": "2026-11-19",
+  "last": 2146.0,
+  "unrealized": -0.0189,
+  "days": 1
  },
  {
   "id": "2026-11-20-pick-ED",
@@ -3537,8 +3651,15 @@
   "cases": 88,
   "horizon": 10,
   "atr": 2.2333647930031684,
-  "status": "pending",
-  "ref_close": 119.09
+  "status": "open",
+  "ref_close": 119.09,
+  "entry": 122.0,
+  "stop": 118.65,
+  "target": 128.7001,
+  "entry_date": "2026-11-20",
+  "last": 119.36,
+  "unrealized": -0.02314,
+  "days": 1
  },
  {
   "id": "2026-11-20-pick-GEHC",
@@ -3554,8 +3675,15 @@
   "cases": 40,
   "horizon": 10,
   "atr": 2.283470534451003,
-  "status": "pending",
-  "ref_close": 83.66
+  "status": "open",
+  "ref_close": 83.66,
+  "entry": 83.66,
+  "stop": 80.2348,
+  "target": 90.5104,
+  "entry_date": "2026-11-19",
+  "last": 80.64,
+  "unrealized": -0.0376,
+  "days": 2
  },
  {
   "id": "2026-11-20-pick-HLT",
@@ -3571,8 +3699,18 @@
   "cases": 109,
   "horizon": 10,
   "atr": 7.7914501566333,
-  "status": "pending",
-  "ref_close": 373.03
+  "status": "closed",
+  "ref_close": 373.03,
+  "entry": 371.96,
+  "stop": 360.2728,
+  "target": 395.3343,
+  "entry_date": "2026-11-19",
+  "outcome": -1,
+  "exit": 360.2728,
+  "exit_date": "2026-11-19",
+  "ret": -0.03292,
+  "days": 1,
+  "market_ret": -0.02928
  },
  {
   "id": "2026-11-20-pick-ABBV",
@@ -3588,8 +3726,15 @@
   "cases": 93,
   "horizon": 10,
   "atr": 6.751456956159166,
-  "status": "pending",
-  "ref_close": 286.01
+  "status": "open",
+  "ref_close": 286.01,
+  "entry": 285.0,
+  "stop": 274.8728,
+  "target": 305.2544,
+  "entry_date": "2026-11-19",
+  "last": 286.2,
+  "unrealized": 0.00271,
+  "days": 2
  },
  {
   "id": "2026-11-20-control-CPT",
@@ -3605,8 +3750,15 @@
   "cases": 68,
   "horizon": 10,
   "atr": 2.0789760218459947,
-  "status": "pending",
-  "ref_close": 96.28
+  "status": "open",
+  "ref_close": 96.28,
+  "entry": 96.64,
+  "stop": 93.5215,
+  "target": 102.8769,
+  "entry_date": "2026-11-20",
+  "last": 95.8,
+  "unrealized": -0.01019,
+  "days": 1
  },
  {
   "id": "2026-11-20-control-IFF",
@@ -3622,8 +3774,15 @@
   "cases": 68,
   "horizon": 10,
   "atr": 2.321565369297747,
-  "status": "pending",
-  "ref_close": 78.61
+  "status": "open",
+  "ref_close": 78.61,
+  "entry": 79.1,
+  "stop": 75.6177,
+  "target": 86.0647,
+  "entry_date": "2026-11-20",
+  "last": 79.62,
+  "unrealized": 0.00507,
+  "days": 1
  },
  {
   "id": "2026-11-20-control-SBAC",
@@ -3639,8 +3798,15 @@
   "cases": 76,
   "horizon": 10,
   "atr": 6.155205812757283,
-  "status": "pending",
-  "ref_close": 169.66
+  "status": "open",
+  "ref_close": 169.66,
+  "entry": 171.34,
+  "stop": 162.1072,
+  "target": 189.8056,
+  "entry_date": "2026-11-20",
+  "last": 173.33,
+  "unrealized": 0.01011,
+  "days": 1
  },
  {
   "id": "2026-11-20-control-NOW",
@@ -3656,8 +3822,15 @@
   "cases": 61,
   "horizon": 10,
   "atr": 5.996433786774117,
-  "status": "pending",
-  "ref_close": 90.59
+  "status": "open",
+  "ref_close": 90.59,
+  "entry": 91.0,
+  "stop": 82.0053,
+  "target": 108.9893,
+  "entry_date": "2026-11-19",
+  "last": 87.61,
+  "unrealized": -0.03875,
+  "days": 2
  },
  {
   "id": "2026-11-20-control-DOC",
@@ -3673,7 +3846,184 @@
   "cases": 56,
   "horizon": 10,
   "atr": 0.4608445196096709,
+  "status": "open",
+  "ref_close": 19.19,
+  "entry": 19.4,
+  "stop": 18.7087,
+  "target": 20.7825,
+  "entry_date": "2026-11-20",
+  "last": 19.24,
+  "unrealized": -0.00975,
+  "days": 1
+ },
+ {
+  "id": "2026-11-21-pick-WMT",
+  "kind": "pick",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "WMT",
+  "name": "Walmart",
+  "market": "US",
+  "direction": 1,
+  "score": 67.1,
+  "win_rate": 0.5769230769230769,
+  "cases": 104,
+  "horizon": 10,
+  "atr": 2.8950890625539887,
   "status": "pending",
-  "ref_close": 19.19
+  "ref_close": 127.95
+ },
+ {
+  "id": "2026-11-21-pick-DGX",
+  "kind": "pick",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "DGX",
+  "name": "Quest Diagnostics",
+  "market": "US",
+  "direction": 1,
+  "score": 74.7,
+  "win_rate": 0.4945054945054945,
+  "cases": 91,
+  "horizon": 10,
+  "atr": 5.758000034910181,
+  "status": "pending",
+  "ref_close": 258.28
+ },
+ {
+  "id": "2026-11-21-pick-CL",
+  "kind": "pick",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "CL",
+  "name": "Colgate-Palmolive",
+  "market": "US",
+  "direction": 1,
+  "score": 68.2,
+  "win_rate": 0.5,
+  "cases": 72,
+  "horizon": 10,
+  "atr": 2.1730712131400893,
+  "status": "pending",
+  "ref_close": 98.71
+ },
+ {
+  "id": "2026-11-21-pick-RSG",
+  "kind": "pick",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "RSG",
+  "name": "Republic Services",
+  "market": "US",
+  "direction": 1,
+  "score": 63.6,
+  "win_rate": 0.5473684210526316,
+  "cases": 95,
+  "horizon": 10,
+  "atr": 4.902318991400124,
+  "status": "pending",
+  "ref_close": 246.59
+ },
+ {
+  "id": "2026-11-21-pick-MCK",
+  "kind": "pick",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "MCK",
+  "name": "McKesson",
+  "market": "US",
+  "direction": 1,
+  "score": 64.5,
+  "win_rate": 0.5221238938053098,
+  "cases": 113,
+  "horizon": 10,
+  "atr": 25.947177825844452,
+  "status": "pending",
+  "ref_close": 1069.4301
+ },
+ {
+  "id": "2026-11-21-control-F",
+  "kind": "control",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "F",
+  "name": "Ford Motor Company",
+  "market": "US",
+  "direction": 1,
+  "score": 82.8,
+  "win_rate": 0.375,
+  "cases": 56,
+  "horizon": 10,
+  "atr": 0.34056296546494835,
+  "status": "pending",
+  "ref_close": 11.17
+ },
+ {
+  "id": "2026-11-21-control-ON",
+  "kind": "control",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "ON",
+  "name": "ON Semiconductor",
+  "market": "US",
+  "direction": 1,
+  "score": 91.2,
+  "win_rate": 0.3157894736842105,
+  "cases": 57,
+  "horizon": 10,
+  "atr": 4.29948704481801,
+  "status": "pending",
+  "ref_close": 60.84
+ },
+ {
+  "id": "2026-11-21-control-TT",
+  "kind": "control",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-20",
+  "sym": "TT",
+  "name": "Trane Technologies",
+  "market": "US",
+  "direction": 1,
+  "score": 85.0,
+  "win_rate": 0.4090909090909091,
+  "cases": 44,
+  "horizon": 10,
+  "atr": 14.690040818595909,
+  "status": "pending",
+  "ref_close": 386.29
+ },
+ {
+  "id": "2026-11-21-control-XRP-USD",
+  "kind": "control",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-19",
+  "sym": "XRP-USD",
+  "name": "XRP",
+  "market": "CRYPTO",
+  "direction": 1,
+  "score": 12.0,
+  "win_rate": 0.336734693877551,
+  "cases": 98,
+  "horizon": 10,
+  "atr": 0.05290917821196902,
+  "status": "pending",
+  "ref_close": 0.9598
+ },
+ {
+  "id": "2026-11-21-control-OPCE.TA",
+  "kind": "control",
+  "run_date": "2026-11-21",
+  "signal_date": "2026-11-19",
+  "sym": "OPCE.TA",
+  "name": "או.פי.סי",
+  "market": "IL",
+  "direction": 1,
+  "score": 21.3,
+  "win_rate": 0.6029411764705882,
+  "cases": 68,
+  "horizon": 10,
+  "atr": 385.46878707056584,
+  "status": "pending",
+  "ref_close": 9245.0
  }
 ]
